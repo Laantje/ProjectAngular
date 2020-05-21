@@ -1,0 +1,40 @@
+<div class="container">
+  <form>
+    <div class="form-group">
+      <label for="forminput1">Name</label>
+      <input type="name" class="form-control" id="forminput1" placeholder="name">
+    </div>
+    <div class="form-group">
+      <label for="forminput2">Quest Name</label>
+      <input type="email" class="form-control" id="forminput2" placeholder="quest name">
+    </div>
+    <div class="form-group">
+      <label for="fromselect1">Level</label>
+      <select class="form-control" id="fromselect1">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+
+<!-- app.component.html -->
+<div class="container">
+    <div class="form-group">
+      <label>Enter address</label>
+      <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()" placeholder="Search Nearest Location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search>
+    </div>
+  
+    <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
+      <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true"
+        (dragEnd)="markerDragEnd($event)"></agm-marker>
+    </agm-map>
+  
+    <h5>Address: {{address}}</h5>
+    <div>Latitude: {{latitude}}</div>
+    <div>Longitude: {{longitude}}</div>
+  </div>
