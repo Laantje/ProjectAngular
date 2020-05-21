@@ -32,7 +32,7 @@ import { QuestComponent } from './quest/quest.component';
     GoogleMapsModule,
     FormsModule,
     AgmCoreModule.forRoot({
-      apiKey: // place key here
+      apiKey:'AIzaSyAYUmxWepc6p4b076XMOvvn6ruY_5Zf8Ms',
       libraries: ['places']
     })
   ],
