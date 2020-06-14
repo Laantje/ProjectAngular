@@ -9,13 +9,13 @@
       <input type="email" class="form-control" id="forminput2" placeholder="quest name">
     </div>
     <div class="form-group">
-      <label for="fromselect1">Level</label>
-      <select class="form-control" id="fromselect1">
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
+      <label for="fromselect">Level</label>
+      <select class="form-control" id="fromselect1" (change)="selectChangeHandler($event)" ng-model="radius">
+        <option  value="4000">1</option>
+        <option  value="8000">2</option>
+        <option  value="12000">3</option>
+        <option  value="16000">4</option>
+        <option  value="20000">5</option>
       </select>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
@@ -24,17 +24,31 @@
 
 <!-- app.component.html -->
 <div class="container">
-    <div class="form-group">
-      <label>Enter address</label>
-      <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()" placeholder="Search Nearest Location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search>
-    </div>
   
     <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
-      <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true"
-        (dragEnd)="markerDragEnd($event)"></agm-marker>
-    </agm-map>
+
+
+      <ng-container *ngFor="let m of markers; let i = index">
   
-    <h5>Address: {{address}}</h5>
-    <div>Latitude: {{latitude}}</div>
-    <div>Longitude: {{longitude}}</div>
+          <agm-marker (markerClick)="clickedMarker(m.label, i)" [latitude]="m.lat" [longitude]="m.lng" [label]="m.label" [iconUrl]="m.icon" *ngIf="m.isShown">
+  
+              <agm-info-window>
+                  <div>{{m.content}}</div>
+              </agm-info-window>
+  
+          </agm-marker>
+  
+      </ng-container>
+    
+  
+      <agm-circle [latitude]="radiusLat" [longitude]="radiusLong" [radius]="radius"
+          [circleDraggable]="false" [editable]="false" (dragEnd)="radiusDragEnd($event)"
+          (radiusChange)="event('radiusChange',$event)">
+      </agm-circle>
+  
+  </agm-map>
+
+  
+  <div>Latitude: {{latitude}}</div>
+  <div>Longitude: {{longitude}}</div>
   </div>

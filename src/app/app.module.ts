@@ -33,7 +33,7 @@ import { QuestComponent } from './quest/quest.component';
     FormsModule,
     AgmCoreModule.forRoot({
       apiKey:'AIzaSyAYUmxWepc6p4b076XMOvvn6ruY_5Zf8Ms',
-      libraries: ['places']
+      libraries: ["places"]
     })
   ],
   providers: [

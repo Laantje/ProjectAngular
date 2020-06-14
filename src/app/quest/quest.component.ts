@@ -1,5 +1,26 @@
-import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
-import { MapsAPILoader, MouseEvent } from '@agm/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  NgZone
+} from '@angular/core';
+import {
+  MapsAPILoader,
+  MouseEvent,
+} from '@agm/core';
+
+// just an interface for type safety.
+interface marker {
+  lat: number;
+  lng: number;
+  label ? : string;
+  draggable: boolean;
+  content ? : string;
+  isShown: boolean;
+  icon ? : string;
+  alpha: number;
+}
 @Component({
   selector: 'app-quest',
   templateUrl: './quest.component.html',
@@ -10,7 +31,40 @@ export class QuestComponent implements OnInit {
   longitude: number;
   zoom: number;
   address: string;
+  selectedValue: number;
   private geoCoder;
+  // Radius
+  radius= 4000;
+  radiusLat = 0;
+  radiusLong = 0;
+
+  markers: marker[] = []
+  selectedMarker;
+
+  addMarker(lat: number, lng: number) {
+    this.markers.push({
+      lat,
+      lng,
+      alpha: 1,
+      isShown: true,
+      draggable: false,
+    });
+  }
+
+  max(coordType: 'lat' | 'lng'): number {
+    return Math.max(...this.markers.map(marker => marker[coordType]));
+  }
+
+  min(coordType: 'lat' | 'lng'): number {
+    return Math.min(...this.markers.map(marker => marker[coordType]));
+  }
+
+  selectMarker(event) {
+    this.selectedMarker = {
+      lat: event.latitude,
+      lng: event.longitude
+    };
+  }
 
   @ViewChild('search')
   public searchElementRef: ElementRef;
@@ -18,12 +72,13 @@ export class QuestComponent implements OnInit {
 
   constructor(
     private mapsAPILoader: MapsAPILoader,
-    private ngZone: NgZone
-  ) { }
+    private ngZone: NgZone,
+  ) {}
 
 
   ngOnInit() {
     //load Places Autocomplete
+    //load Map
     this.mapsAPILoader.load().then(() => {
       this.setCurrentLocation();
       this.geoCoder = new google.maps.Geocoder;
@@ -48,30 +103,51 @@ export class QuestComponent implements OnInit {
     });
   }
 
-  // Get Current Location Coordinates
+
   private setCurrentLocation() {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
         this.latitude = position.coords.latitude;
         this.longitude = position.coords.longitude;
-        this.zoom = 8;
-        this.getAddress(this.latitude, this.longitude);
+        this.radiusLat = this.latitude;
+        this.radiusLong = this.longitude;
+        this.zoom = 11;
+        this.addMarker(this.latitude, this.longitude);
+
+        for (let i = 1; i < this.markers.length; i++) {
+          this.markers.push({
+            lat: this.latitude + Math.random(),
+            lng: this.longitude + Math.random(),
+            label: `${i}`,
+            draggable: false,
+            alpha: 1,
+            content: `Content no ${i}`,
+            isShown: true,
+            icon: './assets/marker-red.png'
+          });
+        }
+
       });
     }
   }
 
-
-  markerDragEnd($event: MouseEvent) {
-    console.log($event);
-    this.latitude = $event.coords.lat;
-    this.longitude = $event.coords.lng;
-    this.getAddress(this.latitude, this.longitude);
+  selectChangeHandler(event: any){
+    //update the ui
+    this.selectedValue = event.target.value;
+    this.radius = event.target.value
+    return this.radius
+    console.log(this.selectedValue)
   }
 
   getAddress(latitude, longitude) {
-    this.geoCoder.geocode({ 'location': { lat: latitude, lng: longitude } }, (results, status) => {
-      console.log(results);
-      console.log(status);
+    this.geoCoder.geocode({
+      'location': {
+        lat: latitude,
+        lng: longitude
+      }
+    }, (results, status) => {
+      // console.log(results);
+      // console.log(status);
       if (status === 'OK') {
         if (results[0]) {
           this.zoom = 12;
@@ -83,6 +159,46 @@ export class QuestComponent implements OnInit {
         window.alert('Geocoder failed due to: ' + status);
       }
     });
+  }
+
+  questMarker() {
+    this.setCurrentLocation()
+  }
+  clickedMarker(label: string, index: number) {
+    console.log(`clicked the marker: ${label || index}`)
+  }
+
+  radiusDragEnd($event: any) {
+    console.log($event);
+    this.radiusLat = $event.coords.lat;
+    this.radiusLong = $event.coords.lng;
+
+  }
+
+  event(type, $event) {
+    console.log(type, $event);
+    this.radius = $event.radius;
+  }
+
+  showHideMarkers() {
+    Object.values(this.markers).forEach(value => {
+      value.isShown = this.getDistanceBetween(value.lat, value.lng, this.radiusLat, this.radiusLong);
+    });
+  }
+
+  getDistanceBetween(lat1, long1, lat2, long2) {
+    var from = new google.maps.LatLng(lat1, long1);
+    var to = new google.maps.LatLng(lat2, long2);
+
+    if (google.maps.geometry.spherical.computeDistanceBetween(from, to) <= this.radius) {
+      console.log('Radius', this.radius);
+      console.log('Distance Between', google.maps.geometry.spherical.computeDistanceBetween(
+        from, to
+      ));
+      return true;
+    } else {
+      return false;
+    }
   }
 
 }
