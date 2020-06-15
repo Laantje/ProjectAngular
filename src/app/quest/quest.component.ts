@@ -10,16 +10,18 @@ import {
   MouseEvent,
 } from '@agm/core';
 
+
 // just an interface for type safety.
 interface marker {
   lat: number;
   lng: number;
-  label ? : string;
+  radius: number;
+  label ?: string;
+  titel ?: string;
   draggable: boolean;
   content ? : string;
   isShown: boolean;
   icon ? : string;
-  alpha: number;
 }
 @Component({
   selector: 'app-quest',
@@ -32,20 +34,22 @@ export class QuestComponent implements OnInit {
   zoom: number;
   address: string;
   selectedValue: number;
+  content : string
   private geoCoder;
   // Radius
-  radius= 4000;
+  radius = 4000;
   radiusLat = 0;
   radiusLong = 0;
 
   markers: marker[] = []
   selectedMarker;
 
-  addMarker(lat: number, lng: number) {
+  addMarker(lat: number, lng: number, radius: number, content: string) {
     this.markers.push({
       lat,
       lng,
-      alpha: 1,
+      radius,
+      content,
       isShown: true,
       draggable: false,
     });
@@ -62,7 +66,7 @@ export class QuestComponent implements OnInit {
   selectMarker(event) {
     this.selectedMarker = {
       lat: event.latitude,
-      lng: event.longitude
+      lng: event.longitudem
     };
   }
 
@@ -112,53 +116,22 @@ export class QuestComponent implements OnInit {
         this.radiusLat = this.latitude;
         this.radiusLong = this.longitude;
         this.zoom = 11;
-        this.addMarker(this.latitude, this.longitude);
-
-        for (let i = 1; i < this.markers.length; i++) {
-          this.markers.push({
-            lat: this.latitude + Math.random(),
-            lng: this.longitude + Math.random(),
-            label: `${i}`,
-            draggable: false,
-            alpha: 1,
-            content: `Content no ${i}`,
-            isShown: true,
-            icon: './assets/marker-red.png'
-          });
-        }
-
+        this.content = "Your location"
+        this.addMarker(this.latitude, this.longitude, this.radius, this.content);
       });
     }
   }
 
   selectChangeHandler(event: any){
     //update the ui
-    this.selectedValue = event.target.value;
-    this.radius = event.target.value
-    return this.radius
+    this.selectedValue = event.target.value
+    var y: number = +this.selectedValue
+    // this.radiusLat = this.selectedValue
+    // this.radiusLong = this.selectedValue
+    this.radius = y
+    this.radiusDragEnd
     console.log(this.selectedValue)
-  }
-
-  getAddress(latitude, longitude) {
-    this.geoCoder.geocode({
-      'location': {
-        lat: latitude,
-        lng: longitude
-      }
-    }, (results, status) => {
-      // console.log(results);
-      // console.log(status);
-      if (status === 'OK') {
-        if (results[0]) {
-          this.zoom = 12;
-          this.address = results[0].formatted_address;
-        } else {
-          window.alert('No results found');
-        }
-      } else {
-        window.alert('Geocoder failed due to: ' + status);
-      }
-    });
+    return(this.selectedValue)
   }
 
   questMarker() {
@@ -177,7 +150,7 @@ export class QuestComponent implements OnInit {
 
   event(type, $event) {
     console.log(type, $event);
-    this.radius = $event.radius;
+    this.radius = $event;
   }
 
   showHideMarkers() {
