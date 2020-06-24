@@ -19,7 +19,7 @@ const routes: Routes = [
     { path: 'quest', component: QuestComponent, canActivate: [AuthGuard]},
 
     // otherwise redirect to welcome
-    { path: '**', redirectTo: '' }
+    { path: '**', redirectTo: ' ' }
 ];
 
 @NgModule({
