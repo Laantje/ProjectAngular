@@ -1,36 +1,49 @@
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
-<meta charset="utf-8"/>
-<title>Javascript memory</title>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script type="text/javascript" src="Memory_src.js"></script>
-<script src="jscolor.min.js"></script>
-<link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#1976d2">
+  <meta charset="utf-8" />
+  <title> Walkapp </title>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script type="text/javascript" src="Memory_src.js"></script>
+  <script src="jscolor.min.js"></script>
 
 </head>
+
 <body>
-<header>
-  <!-- nav -->
-<nav class="navbar navbar-expand navbar-dark bg-dark">
-  <div class="navbar-nav" *ngIf="!currentUser">
-      <a class="nav-item nav-link" (click)="logout()">Login</a>
-  </div>
+  <header>
+    <div class="container">
+    <!-- nav -->
+    <nav class="navbar navbar-nav navbar-expand-lg navbar-dark bg-dark md-auto">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">  
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/home" routerLinkActive="active">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/welcome" routerLinkActive="active">Welcome</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/quest" routerLinkActive="active" *ngIf="_authService.loggedIn()">Quest</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav">
+            <a class="nav-link" *ngIf="!_authService.loggedIn()" routerLink="/register" routerLinkActive="active">Register</a>
+            <a class="nav-link" *ngIf="!_authService.loggedIn()" routerLink="/login" routerLinkActive="active">Login</a>
+            <a class="nav-link" style="cursor: pointer" *ngIf="_authService.loggedIn()" (click)="_authService.logoutUser()">Logout</a>
+          </ul>
+        </div>
+    </nav>
+    </div>
 
-  <div class="navbar-nav" *ngIf="currentUser">
-    <a class="nav-item nav-link" (click)="logout()" >Logout</a>
-    <a class="nav-item nav-link" routerLink="/home" >Home</a>
-    <a class="nav-item nav-link" routerLink="/" >Welcome</a>
-    <a class="nav-item nav-link" routerLink="/quest">Quest</a>
-  </div>
-</nav>
-<!-- main app container -->
-<div class="container">
-  <router-outlet></router-outlet>
-</div>
 
-</header>
+    <!-- main app container -->
+    <div class="container">
+      <router-outlet></router-outlet>
+    </div>
+
+  </header>
 
 </body>
+
 </html>

@@ -9,6 +9,7 @@ import {
   MapsAPILoader,
   MouseEvent,
 } from '@agm/core';
+import { throwIfEmpty } from 'rxjs/operators';
 
 
 // just an interface for type safety.
@@ -22,6 +23,18 @@ interface marker {
   content ? : string;
   isShown: boolean;
   icon ? : string;
+}
+interface Address {
+    latitude: number;
+    longitude: number;
+    addressLine: string;
+    city: string;
+    state: string;
+    country: string
+    zip: string;
+}
+interface testMarker{
+  radius: number;
 }
 @Component({
   selector: 'app-quest',
@@ -42,7 +55,10 @@ export class QuestComponent implements OnInit {
   radiusLong = 0;
 
   markers: marker[] = []
+  mark: testMarker[] = []
+  addresses: Address[] = []
   selectedMarker;
+ 
 
   addMarker(lat: number, lng: number, radius: number, content: string) {
     this.markers.push({
@@ -126,17 +142,12 @@ export class QuestComponent implements OnInit {
     //update the ui
     this.selectedValue = event.target.value
     var y: number = +this.selectedValue
-    // this.radiusLat = this.selectedValue
-    // this.radiusLong = this.selectedValue
     this.radius = y
     this.radiusDragEnd
     console.log(this.selectedValue)
-    return(this.selectedValue)
+    return(this.radius)
   }
 
-  questMarker() {
-    this.setCurrentLocation()
-  }
   clickedMarker(label: string, index: number) {
     console.log(`clicked the marker: ${label || index}`)
   }
@@ -174,4 +185,43 @@ export class QuestComponent implements OnInit {
     }
   }
 
+ CurrentLocation(event) {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        Math.floor(Math.random() * (max - min + 1) + min);
+        // var random: number = (Math.random() * (-0.3 + 0.3))
+        if (this.radius == 4000){var max: number = this.radius / 400000 * 3
+         var min: number = max  * -1}
+          if (this.radius == 8000){var max: number = this.radius / 400000 * 3
+            var min: number = max - 2 * max}
+            if (this.radius == 12000){var max: number = this.radius / 400000 * 3
+              var min: number = max - 2 * max}
+              if (this.radius == 16000){var max: number = this.radius / 400000 * 3
+                var min: number = max - 2 * max}
+                if (this.radius == 20000){var max: number = this.radius / 400000 * 3
+                  var min: number = max - 2 * max}
+
+       
+        // var random: number = (Math.floor((Math.random() * 1) + 1)); // 0 or 1
+        // if (random == 0){
+        //   return min
+        // } if (random == 1) {
+        //   return max
+        // }
+        var lat3: number = (Math.random() * (max - min) + min);
+        var long3: number =  (Math.random() * (max - min) + min);
+        var x: number = this.radius / 400000 * 3 
+        var z: number = this.radius / 400000 * 3
+         
+        this.latitude = position.coords.latitude + lat3
+        this.longitude = position.coords.longitude + long3
+        this.zoom = 11;
+        this.content = "test"
+        //console.log(x)
+        console.log(min)
+        console.log(max)
+        this.addMarker(this.latitude, this.longitude, this.radius, this.content);
+      });
+    }
+  }
 }

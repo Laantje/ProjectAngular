@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthenticationService } from '../services/authentication.service';
-import { User } from '../models/user';
+// import { User } from '../models/user';
 
 
 @Component({
@@ -13,21 +13,20 @@ import { User } from '../models/user';
 })
 export class WelcomeComponent implements OnInit {
   title = 'memory';
-  currentUser: User;
 
   constructor(
       private router: Router,
       private authenticationService: AuthenticationService
   ) {
-      this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+      // this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
   }
 
   ngOnInit(): void {
   }
 
-  logout() {
-    this.authenticationService.logout();
-    this.router.navigate(['/login']);
+  // logout() {
+  //   this.authenticationService.logout();
+  //   this.router.navigate(['/login']);
 
-  }
+  // }
 }

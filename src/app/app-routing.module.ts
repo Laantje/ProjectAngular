@@ -6,12 +6,15 @@ import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './helpers/auth.guard';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { QuestComponent } from './quest/quest.component';
+import { RegisterComponent } from './register/register.component';
 
 
 
 const routes: Routes = [ 
     { path: '', component: WelcomeComponent},
-    { path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
+    { path: 'register', component: RegisterComponent},
+    { path: 'welcome', component: WelcomeComponent},
+    { path: 'home', component: HomeComponent},
     { path: 'login', component: LoginComponent },
     { path: 'quest', component: QuestComponent, canActivate: [AuthGuard]},
 
