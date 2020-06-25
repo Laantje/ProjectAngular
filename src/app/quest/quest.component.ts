@@ -1,16 +1,5 @@
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  ElementRef,
-  NgZone
-} from '@angular/core';
-import {
-  MapsAPILoader,
-  MouseEvent,
-} from '@agm/core';
-import { throwIfEmpty } from 'rxjs/operators';
-
+import { Component,OnInit,ViewChild,ElementRef,NgZone, Input,} from '@angular/core';
+import {MapsAPILoader} from '@agm/core';
 
 // just an interface for type safety.
 interface marker {
@@ -24,17 +13,18 @@ interface marker {
   isShown: boolean;
   icon ? : string;
 }
-interface Address {
-    latitude: number;
-    longitude: number;
-    addressLine: string;
-    city: string;
-    state: string;
-    country: string
-    zip: string;
-}
-interface testMarker{
+interface questmarker {
+  lat: number;
+  lng: number;
   radius: number;
+  label ?: string;
+  titel ?: string;
+  draggable: boolean;
+  content ? : string;
+  description: string;
+  questname: string;
+  isShown: boolean;
+  icon ? : string;
 }
 @Component({
   selector: 'app-quest',
@@ -48,17 +38,19 @@ export class QuestComponent implements OnInit {
   address: string;
   selectedValue: number;
   content : string
+  questname: string;
+  description: string;
   private geoCoder;
   // Radius
   radius = 4000;
   radiusLat = 0;
   radiusLong = 0;
 
+  list = []
   markers: marker[] = []
-  mark: testMarker[] = []
-  addresses: Address[] = []
+  Locationmarkers: questmarker[] = []
   selectedMarker;
- 
+  
 
   addMarker(lat: number, lng: number, radius: number, content: string) {
     this.markers.push({
@@ -66,6 +58,18 @@ export class QuestComponent implements OnInit {
       lng,
       radius,
       content,
+      isShown: true,
+      draggable: false,
+    });
+  }
+
+  addQuestMarker(lat: number, lng: number, radius: number, questname: string, description: string) {
+    this.Locationmarkers.push({
+      lat,
+      lng,
+      radius,
+      questname,
+      description,
       isShown: true,
       draggable: false,
     });
@@ -86,6 +90,9 @@ export class QuestComponent implements OnInit {
     };
   }
 
+  @ViewChild('myInput') 
+  public myInput : ElementRef;
+
   @ViewChild('search')
   public searchElementRef: ElementRef;
 
@@ -93,8 +100,7 @@ export class QuestComponent implements OnInit {
   constructor(
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone,
-  ) {}
-
+  ){}
 
   ngOnInit() {
     //load Places Autocomplete
@@ -122,7 +128,6 @@ export class QuestComponent implements OnInit {
       });
     });
   }
-
 
   private setCurrentLocation() {
     if ('geolocation' in navigator) {
@@ -164,26 +169,45 @@ export class QuestComponent implements OnInit {
     this.radius = $event;
   }
 
-  showHideMarkers() {
-    Object.values(this.markers).forEach(value => {
-      value.isShown = this.getDistanceBetween(value.lat, value.lng, this.radiusLat, this.radiusLong);
-    });
+  // showHideMarkers() {
+  //   Object.values(this.markers).forEach(value => {
+  //     value.isShown = this.getDistanceBetween(value.lat, value.lng, this.radiusLat, this.radiusLong);
+  //   });
+  // }
+
+  // getDistanceBetween(lat1, long1, lat2, long2) {
+  //   var from = new google.maps.LatLng(lat1, long1);
+  //   var to = new google.maps.LatLng(lat2, long2);
+
+  //   if (google.maps.geometry.spherical.computeDistanceBetween(from, to) <= this.radius) {
+  //     console.log('Radius', this.radius);
+  //     console.log('Distance Between', google.maps.geometry.spherical.computeDistanceBetween(
+  //       from, to
+  //     ));
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
+
+  getQuestDescription(refVar){
   }
 
-  getDistanceBetween(lat1, long1, lat2, long2) {
-    var from = new google.maps.LatLng(lat1, long1);
-    var to = new google.maps.LatLng(lat2, long2);
-
-    if (google.maps.geometry.spherical.computeDistanceBetween(from, to) <= this.radius) {
-      console.log('Radius', this.radius);
-      console.log('Distance Between', google.maps.geometry.spherical.computeDistanceBetween(
-        from, to
-      ));
-      return true;
-    } else {
-      return false;
+ getQuestName(refVar){
+   var list = []
+   this.questname = refVar
+   this.Locationmarkers.forEach(function (val){
+    if (val.questname == refVar){
+      alert("bestaat")
+      return true
+    } else if (val.questname != refVar) {
+      list.push(val.questname);
+      console.log(list)
+      return list
     }
-  }
+  });
+ }
+
 
  CurrentLocation(event) {
     if ('geolocation' in navigator) {
@@ -202,12 +226,6 @@ export class QuestComponent implements OnInit {
                   var min: number = max - 2 * max}
 
        
-        // var random: number = (Math.floor((Math.random() * 1) + 1)); // 0 or 1
-        // if (random == 0){
-        //   return min
-        // } if (random == 1) {
-        //   return max
-        // }
         var lat3: number = (Math.random() * (max - min) + min);
         var long3: number =  (Math.random() * (max - min) + min);
         var x: number = this.radius / 400000 * 3 
@@ -216,11 +234,9 @@ export class QuestComponent implements OnInit {
         this.latitude = position.coords.latitude + lat3
         this.longitude = position.coords.longitude + long3
         this.zoom = 11;
-        this.content = "test"
-        //console.log(x)
-        console.log(min)
-        console.log(max)
-        this.addMarker(this.latitude, this.longitude, this.radius, this.content);
+        // console.log(min)
+        // console.log(max)
+        this.addQuestMarker(this.latitude, this.longitude, this.radius, this.questname, this.description);
       });
     }
   }
