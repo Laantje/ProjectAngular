@@ -1,6 +1,6 @@
-# Projectangular
+# Angular Examples
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.2.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.0.2.
 
 ## Development server
 
@@ -21,6 +21,9 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 ## Running end-to-end tests
 
 Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+
+## Demo
+You can see the demo of the examples in [Stackblitz](https://stackblitz.com/github/tensult/angular-examples).
 
 ## Further help
 

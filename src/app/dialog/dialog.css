@@ -1,0 +1,35 @@
+.mat-dialog-actions{
+  justify-content: flex-end;
+}
+
+img {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+.container {
+  position: relative;
+}
+
+.container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.char td {
+  width: 200px;
+  height: 320px;
+}
+
+div {
+  background-color: lightblue;
+}
+
+.dialog {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 40px;
+}
+
