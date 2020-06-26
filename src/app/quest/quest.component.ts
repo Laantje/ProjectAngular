@@ -1,13 +1,22 @@
-import { Component,OnInit,ViewChild,ElementRef,NgZone, Input,} from '@angular/core';
-import {MapsAPILoader} from '@agm/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  NgZone,
+} from '@angular/core';
+import {
+  MapsAPILoader
+} from '@agm/core';
+import { __values } from 'tslib';
 
 // just an interface for type safety.
 interface marker {
   lat: number;
   lng: number;
   radius: number;
-  label ?: string;
-  titel ?: string;
+  label ? : string;
+  titel ? : string;
   draggable: boolean;
   content ? : string;
   isShown: boolean;
@@ -17,8 +26,8 @@ interface questmarker {
   lat: number;
   lng: number;
   radius: number;
-  label ?: string;
-  titel ?: string;
+  label ? : string;
+  titel ? : string;
   draggable: boolean;
   content ? : string;
   description: string;
@@ -37,7 +46,7 @@ export class QuestComponent implements OnInit {
   zoom: number;
   address: string;
   selectedValue: number;
-  content : string
+  content: string
   questname: string;
   description: string;
   private geoCoder;
@@ -45,12 +54,13 @@ export class QuestComponent implements OnInit {
   radius = 4000;
   radiusLat = 0;
   radiusLong = 0;
+  index;
 
   list = []
   markers: marker[] = []
   Locationmarkers: questmarker[] = []
   selectedMarker;
-  
+
 
   addMarker(lat: number, lng: number, radius: number, content: string) {
     this.markers.push({
@@ -75,6 +85,15 @@ export class QuestComponent implements OnInit {
     });
   }
 
+  removeQuestMarker(index: number) {
+    for (var i = 0; i < this.Locationmarkers.length; i ++ ){
+      if (i == index){
+        this.Locationmarkers.splice(index, 1)
+      }
+    }
+    console.log(index)
+  }
+
   max(coordType: 'lat' | 'lng'): number {
     return Math.max(...this.markers.map(marker => marker[coordType]));
   }
@@ -90,8 +109,8 @@ export class QuestComponent implements OnInit {
     };
   }
 
-  @ViewChild('myInput') 
-  public myInput : ElementRef;
+  @ViewChild('myInput')
+  public myInput: ElementRef;
 
   @ViewChild('search')
   public searchElementRef: ElementRef;
@@ -100,7 +119,7 @@ export class QuestComponent implements OnInit {
   constructor(
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone,
-  ){}
+  ) {}
 
   ngOnInit() {
     //load Places Autocomplete
@@ -143,14 +162,14 @@ export class QuestComponent implements OnInit {
     }
   }
 
-  selectChangeHandler(event: any){
+  selectChangeHandler(event: any) {
     //update the ui
     this.selectedValue = event.target.value
     var y: number = +this.selectedValue
     this.radius = y
     this.radiusDragEnd
     console.log(this.selectedValue)
-    return(this.radius)
+    return (this.radius)
   }
 
   clickedMarker(label: string, index: number) {
@@ -190,47 +209,43 @@ export class QuestComponent implements OnInit {
   //   }
   // }
 
-  getQuestDescription(refVar){
-  }
+  getQuestDescription(refVar) {}
 
- getQuestName(refVar){
-   var list = []
-   this.questname = refVar
-   this.Locationmarkers.forEach(function (val){
-    if (val.questname == refVar){
-      alert("bestaat")
-      return true
-    } else if (val.questname != refVar) {
-      list.push(val.questname);
-      console.log(list)
-      return list
-    }
-  });
- }
+  getQuestName(refVar) {}
 
 
- CurrentLocation(event) {
+  CurrentLocation(event, index) {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
         Math.floor(Math.random() * (max - min + 1) + min);
         // var random: number = (Math.random() * (-0.3 + 0.3))
-        if (this.radius == 4000){var max: number = this.radius / 400000 * 3
-         var min: number = max  * -1}
-          if (this.radius == 8000){var max: number = this.radius / 400000 * 3
-            var min: number = max - 2 * max}
-            if (this.radius == 12000){var max: number = this.radius / 400000 * 3
-              var min: number = max - 2 * max}
-              if (this.radius == 16000){var max: number = this.radius / 400000 * 3
-                var min: number = max - 2 * max}
-                if (this.radius == 20000){var max: number = this.radius / 400000 * 3
-                  var min: number = max - 2 * max}
+        if (this.radius == 4000) {
+          var max: number = this.radius / 400000 * 3
+          var min: number = max * -1
+        }
+        if (this.radius == 8000) {
+          var max: number = this.radius / 400000 * 3
+          var min: number = max - 2 * max
+        }
+        if (this.radius == 12000) {
+          var max: number = this.radius / 400000 * 3
+          var min: number = max - 2 * max
+        }
+        if (this.radius == 16000) {
+          var max: number = this.radius / 400000 * 3
+          var min: number = max - 2 * max
+        }
+        if (this.radius == 20000) {
+          var max: number = this.radius / 400000 * 3
+          var min: number = max - 2 * max
+        }
 
-       
+
         var lat3: number = (Math.random() * (max - min) + min);
-        var long3: number =  (Math.random() * (max - min) + min);
-        var x: number = this.radius / 400000 * 3 
+        var long3: number = (Math.random() * (max - min) + min);
+        var x: number = this.radius / 400000 * 3
         var z: number = this.radius / 400000 * 3
-         
+
         this.latitude = position.coords.latitude + lat3
         this.longitude = position.coords.longitude + long3
         this.zoom = 11;
