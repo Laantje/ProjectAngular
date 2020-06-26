@@ -20,7 +20,7 @@
         <option  value="20000">5</option>
       </select>
     </div>
-    <button type="submit"  (click)="CurrentLocation($event, index)" (click)="getQuestName(name.value)" (click)="getQuestDescription(description.value)" class="btn btn-primary">Submit</button>
+    <button type="submit"  (click)="CurrentLocation($event)" (click)="getQuestName(name.value)" (click)="getQuestDescription(description.value)" class="btn btn-primary">Submit</button>
   </form>
 </div>
 
@@ -42,7 +42,7 @@
 
     </ng-container>
 
-    <ng-container ng-repeat="markers in Locationmarkers" *ngFor="let m of Locationmarkers; let i = index">
+    <ng-container *ngFor="let m of Locationmarkers; let i = index">
 
       <agm-marker (markerClick)="clickedMarker(m.label, i)" [latitude]="m.lat" [longitude]="m.lng" [label]="m.label" [iconUrl]="m.icon" *ngIf="m.isShown">
 

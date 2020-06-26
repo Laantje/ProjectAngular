@@ -214,7 +214,7 @@ export class QuestComponent implements OnInit {
   getQuestName(refVar) {}
 
 
-  CurrentLocation(event, index) {
+  CurrentLocation(event) {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
         Math.floor(Math.random() * (max - min + 1) + min);
