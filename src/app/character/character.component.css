@@ -1,0 +1,82 @@
+.mat-dialog-actions{
+justify-content: flex-end;
+}
+
+img {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+.container {
+  position: relative;
+}
+
+.container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.char td {
+  width: 200px;
+  height: 320px;
+}
+
+div {
+  background-color: lightblue;
+}
+
+.dialog {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.character-header {
+    border: solid;
+    border-radius: 3px;
+    border-width: 2px;
+    background-color: gainsboro;
+    padding:20px;
+    margin: 0 auto!important;
+    width:600px;
+    position: relative;
+    top:50px;
+}
+
+.character-body {
+    border: solid;
+    border-radius: 3px;
+    border-width: 2px;
+    padding:25px;
+    top:50px;
+    position: relative;
+    margin: 0 auto!important;
+    width:600px;
+}
+
+@media screen and (max-width:991px) {
+    .character-header {
+        border: solid;
+        border-radius: 3px;
+        border-width: 2px;
+        background-color: gainsboro;
+        padding:20px;
+        margin: 0 auto!important;
+        width:300px;
+        position: relative;
+        top:50px;
+    }
+    
+    .character-body {
+        border: solid;
+        border-radius: 3px;
+        border-width: 2px;
+        padding:25px;
+        top:50px;
+        position: relative;
+        margin: 0 auto!important;
+        width:300px;
+    }
+}

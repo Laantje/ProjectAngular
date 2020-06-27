@@ -4,6 +4,7 @@ import { ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { GoogleMapsModule} from '@angular/google-maps';
 import { AgmCoreModule } from '@agm/core';
+import { Dialog } from './dialog/dialog';
 import { FormsModule } from '@angular/forms'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,10 +22,13 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
 import { AuthenticationService} from './services/authentication.service'
 import { AuthGuard } from './helpers/auth.guard';
 import { RegisterComponent } from './register/register.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
     AppComponent,
+    Dialog,
     WelcomeComponent,
     LoginComponent,
     HomeComponent,
@@ -46,7 +50,9 @@ import { RegisterComponent } from './register/register.component';
       libraries: ["places"]
     }),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
-    NgbModule
+    NgbModule,
+    BrowserAnimationsModule,
+    MatDialogModule
   ],
   providers: [AuthenticationService, AuthGuard,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true },

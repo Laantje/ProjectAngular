@@ -6,11 +6,12 @@ import { AuthenticationService } from '../services/authentication.service';;
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
 
     loginUserData = {username: '', password: ''}
-    constructor(private AuthenticationService: AuthenticationService,
+    constructor(public AuthenticationService: AuthenticationService,
         private _router: Router){}
 
     ngOnInit(): void {

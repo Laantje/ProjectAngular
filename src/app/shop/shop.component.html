@@ -1,1 +1,25 @@
-<p>shop works!</p>
+<div class="container">
+<div class="shop-header">
+    <h3>Shop</h3>
+</div>
+<div class="shop-body">
+<h5>Your current amount of points: 500</h5>
+<div class="row">
+    <ng-container *ngFor="let preset of verkoopArray;let i=index" >
+        <div class="col-md-6 shopItem">
+        <div valign="top" class="char" width="200" height="320">
+            <div class="container">
+              <img width="200" alt="Character" src="{{skinToSrc(preset.skin)}}">
+              <img width="200" alt="Character" src="{{eyesToSrc(preset.eyes)}}">
+              <img width="200" alt="Character" src="{{hairToSrc(preset.hair)}}">
+            </div>
+        </div>
+        <div class="price">
+            <p>Price: 500 points</p>
+          <button class="btn" type="button"(click)="buyPreset(preset)">Buy</button>
+        </div>
+    </div>
+    </ng-container>
+</div>
+</div>
+</div>

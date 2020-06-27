@@ -1,0 +1,30 @@
+.leader-header {
+    border: solid;
+    border-radius: 3px;
+    border-width: 2px;
+    background-color: gainsboro;
+    padding:20px;
+    margin: 0 auto!important;
+    width:280px;
+    top:50px;
+    position: relative;
+}
+
+.leader-body {
+    border: solid;
+    border-radius: 3px;
+    border-width: 2px;
+    padding:25px;
+    width:280px;
+    top:50px;
+    position: relative;
+    margin: 0 auto!important;
+}
+
+.leader-body table tr {
+    border: 1px solid black;
+}
+
+.leader-body table tr td, .leader-body table tr th {
+    padding:0px 14px 0px 14px;
+}

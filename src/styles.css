@@ -16,3 +16,12 @@ body {
 .btn:hover {
     color:yellow;
 }
+
+.btn:active {
+    border-color: black;
+    border-width: 3px;
+    background-color: #39b54a;
+    color:white;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

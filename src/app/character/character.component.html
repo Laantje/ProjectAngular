@@ -1,1 +1,66 @@
-<p>character works!</p>
+<div class="containter">
+<div class="character-header">
+    <h3>My character</h3>
+</div>
+<div class="character-body">
+    <mat-dialog-content class="text">
+        <div class="container img-fluid">
+      <table style="margin-left: 35%;">
+        <tr>
+          <td>
+            <table >
+              <tr>
+                <td><button type="button" (click)="decrementSkin()">-</button></td>
+                <td>Skin:</td>
+                <td>{{skinID}}</td>
+                <td><button type="button" (click)="incrementSkin()">+</button></td>
+              </tr>
+              <tr>
+                <td><button type="button" (click)="decrementHair() ">-</button></td>
+                <td>Hair:</td>
+                <td>{{hairID}}</td>
+                <td><button type="button" (click)="incrementHair()">+</button></td>
+              </tr>
+              <tr>
+                <td><button type="button" (click)="decrementEye()">-</button></td>
+                <td>Eyes:</td>
+                <td>{{eyeID}}</td>
+                <td><button type="button" (click)="incrementEye()">+</button></td>
+              </tr>
+            </table>
+          </td>
+          <td valign="top" class="char" width="200" height="320">
+            <div class="container">
+              <img width="200" alt="Character" src="{{skinSrc}}">
+              <img width="200" alt="Character" src="{{eyeSrc}}">
+              <img width="200" alt="Character" src="{{hairSrc}}">
+            </div>
+          </td>
+          <td valign="top">
+            <p *ngFor="let preset of presetArray;let i=index" id="{{'set'+i}}">
+              <button type="button" (click)="loadPreset(preset.skin, preset.hair, preset.eyes)">{{preset.name}}</button>
+            </p>
+          </td>
+          <td valign="top">
+            <p *ngFor="let preset of presetArray;let i=index" id="{{'del'+i}}">
+              <button type="button" (click)="deletePreset(i)">Delete</button>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <mat-dialog-actions>
+              <button mat-raised-button [mat-dialog-close]="true" color="primary" type="button"(click)="saveCharacter()" color="primary">Save</button>
+              <button mat-raised-button [mat-dialog-close]="true" color="primary">Close</button>
+            </mat-dialog-actions>
+          </td>
+          <td></td>
+        </tr>
+      </table>
+      </div>
+      
+      
+      </mat-dialog-content>      
+</div>
+</div>

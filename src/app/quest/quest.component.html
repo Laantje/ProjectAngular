@@ -1,6 +1,10 @@
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#1976d2">
 <div class="container">
+  <div class=quest-header>
+    <h3>Quest</h3>
+  </div>
+  <div class="quest-body">
   <form>
     <div class="form-group">
       <label for="forminput1">Quest name</label>
@@ -22,11 +26,6 @@
     </div>
     <button type="submit"  (click)="CurrentLocation($event)" (click)="getQuestName(name.value)" (click)="getQuestDescription(description.value)" class="btn btn-primary">Submit</button>
   </form>
-</div>
-
-<!-- app.component.html -->
-<div class="container">
-  
   <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
 
 
@@ -62,5 +61,5 @@
     </agm-circle>
 
 </agm-map>
-
+</div>
 

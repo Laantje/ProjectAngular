@@ -1,0 +1,56 @@
+.mat-dialog-actions{
+    justify-content: flex-end;
+  }
+  
+  img {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+  }
+  .container {
+    position: relative;
+  }
+  
+  .container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  
+  .char td {
+    width: 200px;
+    height: 320px;
+  }
+
+  .char {
+      padding-bottom:320px;
+  }
+  
+  .dialog {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 40px;
+  }
+  
+.shop-header {
+    border: solid;
+    border-radius: 3px;
+    border-width: 2px;
+    background-color: gainsboro;
+    padding:20px;
+    position: relative;
+    top:50px;
+    width:100%;
+    margin: 0 auto!important;
+}
+
+.shop-body {
+    border: solid;
+    border-radius: 3px;
+    border-width: 2px;
+    position: relative;
+    top:50px;
+    padding:20px;
+    width:100%;
+}

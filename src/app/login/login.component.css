@@ -1,0 +1,16 @@
+.login-header {
+    border: solid;
+    border-radius: 3px;
+    border-width: 2px;
+    background-color: gainsboro;
+    padding:20px;
+    margin: 0 auto!important;
+    width:100%;
+}
+
+.login-body {
+    border: solid;
+    border-radius: 3px;
+    border-width: 2px;
+    padding:25px;
+}

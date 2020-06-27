@@ -4,5 +4,30 @@
 
 agm-map {
     height: 300px;
+    position: relative;
+    top: 20px;
+}
+
+.quest-header {
+    border: solid;
+    border-radius: 3px;
+    border-width: 2px;
+    background-color: gainsboro;
+    padding:20px;
+    margin: 0 auto!important;
+    width:100%;
+    top:50px;
+    position: relative;
+}
+
+.quest-body {
+    border: solid;
+    border-radius: 3px;
+    border-width: 2px;
+    width:100%;
+    padding:20px;
+    position: relative;
+    top:50px;
+    padding-bottom: 50px;
 }
 
