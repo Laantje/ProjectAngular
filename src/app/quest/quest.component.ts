@@ -3,23 +3,35 @@ import {
   OnInit,
   ViewChild,
   ElementRef,
-  NgZone
+  NgZone,
 } from '@angular/core';
 import {
-  MapsAPILoader,
-  MouseEvent,
+  MapsAPILoader
 } from '@agm/core';
-
+import { __values } from 'tslib';
 
 // just an interface for type safety.
 interface marker {
   lat: number;
   lng: number;
   radius: number;
-  label ?: string;
-  titel ?: string;
+  label ? : string;
+  titel ? : string;
   draggable: boolean;
   content ? : string;
+  isShown: boolean;
+  icon ? : string;
+}
+interface questmarker {
+  lat: number;
+  lng: number;
+  radius: number;
+  label ? : string;
+  titel ? : string;
+  draggable: boolean;
+  content ? : string;
+  description: string;
+  questname: string;
   isShown: boolean;
   icon ? : string;
 }
@@ -34,15 +46,21 @@ export class QuestComponent implements OnInit {
   zoom: number;
   address: string;
   selectedValue: number;
-  content : string
+  content: string
+  questname: string;
+  description: string;
   private geoCoder;
   // Radius
   radius = 4000;
   radiusLat = 0;
   radiusLong = 0;
+  index;
 
+  list = []
   markers: marker[] = []
+  Locationmarkers: questmarker[] = []
   selectedMarker;
+
 
   addMarker(lat: number, lng: number, radius: number, content: string) {
     this.markers.push({
@@ -53,6 +71,27 @@ export class QuestComponent implements OnInit {
       isShown: true,
       draggable: false,
     });
+  }
+
+  addQuestMarker(lat: number, lng: number, radius: number, questname: string, description: string) {
+    this.Locationmarkers.push({
+      lat,
+      lng,
+      radius,
+      questname,
+      description,
+      isShown: true,
+      draggable: false,
+    });
+  }
+
+  removeQuestMarker(index: number) {
+    for (var i = 0; i < this.Locationmarkers.length; i ++ ){
+      if (i == index){
+        this.Locationmarkers.splice(index, 1)
+      }
+    }
+    console.log(index)
   }
 
   max(coordType: 'lat' | 'lng'): number {
@@ -70,6 +109,9 @@ export class QuestComponent implements OnInit {
     };
   }
 
+  @ViewChild('myInput')
+  public myInput: ElementRef;
+
   @ViewChild('search')
   public searchElementRef: ElementRef;
 
@@ -78,7 +120,6 @@ export class QuestComponent implements OnInit {
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone,
   ) {}
-
 
   ngOnInit() {
     //load Places Autocomplete
@@ -107,7 +148,6 @@ export class QuestComponent implements OnInit {
     });
   }
 
-
   private setCurrentLocation() {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -122,21 +162,16 @@ export class QuestComponent implements OnInit {
     }
   }
 
-  selectChangeHandler(event: any){
+  selectChangeHandler(event: any) {
     //update the ui
     this.selectedValue = event.target.value
     var y: number = +this.selectedValue
-    // this.radiusLat = this.selectedValue
-    // this.radiusLong = this.selectedValue
     this.radius = y
     this.radiusDragEnd
     console.log(this.selectedValue)
-    return(this.selectedValue)
+    return (this.radius)
   }
 
-  questMarker() {
-    this.setCurrentLocation()
-  }
   clickedMarker(label: string, index: number) {
     console.log(`clicked the marker: ${label || index}`)
   }
@@ -153,25 +188,71 @@ export class QuestComponent implements OnInit {
     this.radius = $event;
   }
 
-  showHideMarkers() {
-    Object.values(this.markers).forEach(value => {
-      value.isShown = this.getDistanceBetween(value.lat, value.lng, this.radiusLat, this.radiusLong);
-    });
-  }
+  // showHideMarkers() {
+  //   Object.values(this.markers).forEach(value => {
+  //     value.isShown = this.getDistanceBetween(value.lat, value.lng, this.radiusLat, this.radiusLong);
+  //   });
+  // }
 
-  getDistanceBetween(lat1, long1, lat2, long2) {
-    var from = new google.maps.LatLng(lat1, long1);
-    var to = new google.maps.LatLng(lat2, long2);
+  // getDistanceBetween(lat1, long1, lat2, long2) {
+  //   var from = new google.maps.LatLng(lat1, long1);
+  //   var to = new google.maps.LatLng(lat2, long2);
 
-    if (google.maps.geometry.spherical.computeDistanceBetween(from, to) <= this.radius) {
-      console.log('Radius', this.radius);
-      console.log('Distance Between', google.maps.geometry.spherical.computeDistanceBetween(
-        from, to
-      ));
-      return true;
-    } else {
-      return false;
+  //   if (google.maps.geometry.spherical.computeDistanceBetween(from, to) <= this.radius) {
+  //     console.log('Radius', this.radius);
+  //     console.log('Distance Between', google.maps.geometry.spherical.computeDistanceBetween(
+  //       from, to
+  //     ));
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
+
+  getQuestDescription(refVar) {}
+
+  getQuestName(refVar) {}
+
+
+  CurrentLocation(event) {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        Math.floor(Math.random() * (max - min + 1) + min);
+        // var random: number = (Math.random() * (-0.3 + 0.3))
+        if (this.radius == 4000) {
+          var max: number = this.radius / 400000 * 3
+          var min: number = max * -1
+        }
+        if (this.radius == 8000) {
+          var max: number = this.radius / 400000 * 3
+          var min: number = max - 2 * max
+        }
+        if (this.radius == 12000) {
+          var max: number = this.radius / 400000 * 3
+          var min: number = max - 2 * max
+        }
+        if (this.radius == 16000) {
+          var max: number = this.radius / 400000 * 3
+          var min: number = max - 2 * max
+        }
+        if (this.radius == 20000) {
+          var max: number = this.radius / 400000 * 3
+          var min: number = max - 2 * max
+        }
+
+
+        var lat3: number = (Math.random() * (max - min) + min);
+        var long3: number = (Math.random() * (max - min) + min);
+        var x: number = this.radius / 400000 * 3
+        var z: number = this.radius / 400000 * 3
+
+        this.latitude = position.coords.latitude + lat3
+        this.longitude = position.coords.longitude + long3
+        this.zoom = 11;
+        // console.log(min)
+        // console.log(max)
+        this.addQuestMarker(this.latitude, this.longitude, this.radius, this.questname, this.description);
+      });
     }
   }
-
 }

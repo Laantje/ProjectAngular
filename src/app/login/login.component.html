@@ -1,35 +1,24 @@
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#1976d2">
-
-<div class="col-md-6 offset-md-4 mt-5">
-    <div class="alert alert-info">
-        Username: test<br />
-        Password: test
-    </div>
-    <div class="card">
-        <h4 class="card-header">Angular JWT Login</h4>
-        <div class="card-body">
-            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
-                    <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-                        <div *ngIf="f.username.errors.required">Username is required</div>
+<div class="row pt-5">
+    <div class='col-md-6 mx-auto'>
+        <div class="card roundend-0">
+            <div class="card-header">
+                <h3 class ="mb-0">Login</h3>
+            </div>
+            <div class="card-body">
+                <form class="form">
+                    <div class ="form-group">
+                        <label for ="">Username</label>
+                        <input [(ngModel)]="loginUserData.username" name="username" type="text" class="form-control rounded-0" required>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
-                    <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                        <div *ngIf="f.password.errors.required">Password is required</div>
+                    <div class ="form-group">
+                        <label for="">Password</label>
+                        <input [(ngModel)]="loginUserData.password" name="password" type="password" class="form-control rounded-0" required>
                     </div>
-                </div>
-                <button [disabled]="loading" class="btn">
-                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                    Login
-                </button>
-                <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
-            </form>
+                    <button (click)="loginUser()" type="button" class="btn btn-primary float-right">Login</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>

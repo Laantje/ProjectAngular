@@ -13,8 +13,11 @@ import { RegisterComponent } from './register/register.component';
 
 
 
-const routes: Routes = [ 
+const routes: Routes = [
     { path: '', component: WelcomeComponent},
+    { path: 'register', component: RegisterComponent},
+    { path: 'welcome', component: WelcomeComponent},
+    { path: 'home', component: HomeComponent},
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
@@ -24,7 +27,7 @@ const routes: Routes = [
     { path: 'shop', component: ShopComponent, canActivate: [AuthGuard]},
 
     // otherwise redirect to welcome
-    { path: '**', redirectTo: '' }
+    { path: '**', redirectTo: ' ' }
 ];
 
 @NgModule({

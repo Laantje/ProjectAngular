@@ -1,38 +1,39 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Router } from '@angular/router'
 
-import { environment } from '@environments/environment';
-import { User } from '../models/user';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
+
 export class AuthenticationService {
-    private currentUserSubject: BehaviorSubject<User>;
-    public currentUser: Observable<User>;
+    
+    private _registerUrl= "http://localhost:3000/api/register";
+    private _loginUrl= "http://localhost:3000/api/login";
+   
 
-    constructor(private http: HttpClient) {
-        this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
-        this.currentUser = this.currentUserSubject.asObservable();
+    constructor(private http: HttpClient,
+        private _router: Router) {
+        
+    }
+    registerUser(user) {
+        return this.http.post<any>(this._registerUrl, user)
     }
 
-    public get currentUserValue(): User {
-        return this.currentUserSubject.value;
+    loginUser(user) {
+        return this.http.post<any>(this._loginUrl, user)
     }
 
-    login(username: string, password: string) {
-        return this.http.post<any>(`${environment.apiUrl}/users/authenticate`, { username, password })
-            .pipe(map(user => {
-                // store user details and jwt token in local storage to keep user logged in between page refreshes
-                localStorage.setItem('currentUser', JSON.stringify(user));
-                this.currentUserSubject.next(user);
-                return user;
-            }));
+    loggedIn(){
+        return !!localStorage.getItem('token')
     }
 
-    logout() {
-        // remove user from local storage to log user out
-        localStorage.removeItem('currentUser');
-        this.currentUserSubject.next(null);
+    logoutUser() {
+        localStorage.removeItem('token') 
+        this._router.navigate(['/home'])
     }
+
+    getToken() {
+        return localStorage.getItem('token')
+    }
+
 }

@@ -24,14 +24,14 @@
         </div>
         <div class="col">
           <nav class="navbar navbar-expand-sm">
-            <div class="navbar-nav" *ngIf="!currentUser">
+            <div class="navbar-nav" *ngIf="!_authService.loggedIn()">
               <div class="row">
                 <a class="nav-item" routerLink="/login">Login</a>
                 <a class="nav-item" routerLink="/register">Register</a>
               </div>
             </div>
 
-            <div ngbDropdown class="d-inline-block" *ngIf="currentUser">
+            <div ngbDropdown class="d-inline-block" *ngIf="_authService.loggedIn()">
               <button class="navMenuButton" id="dropdownMenu" ngbDropdownToggle>Menu</button>
               <div ngbDropdownMenu aria-labelledby="dropdownMenu">
                 <button ngbDropdownItem routerLink="/home">Home</button>
@@ -39,7 +39,7 @@
                 <button ngbDropdownItem routerLink="/character">Character</button>
                 <button ngbDropdownItem routerLink="/quest">Quests</button>
                 <button ngbDropdownItem routerLink="/shop">Shop</button>
-                <button ngbDropdownItem (click)=logout()>Logout</button>
+                <button ngbDropdownItem (click)="_authService.logoutUser()">Logout</button>
               </div>
             </div>
           </nav>

@@ -3,12 +3,12 @@
 <div class="container">
   <form>
     <div class="form-group">
-      <label for="forminput1">Name</label>
-      <input type="name" class="form-control" id="forminput1" placeholder="name">
+      <label for="forminput1">Quest name</label>
+      <input type="text" #name  #bescrijving class="form-control" id="forminput1" placeholder="Name">
     </div>
     <div class="form-group">
-      <label for="forminput2">Quest Name</label>
-      <input type="email" class="form-control" id="forminput2" placeholder="quest name">
+      <label for="forminput2">Quest description</label>
+      <input type="text" #description class="form-control" id="forminput3" placeholder="Description">
     </div>
     <div class="form-group">
       <label for="fromselect">Level</label>
@@ -20,7 +20,7 @@
         <option  value="20000">5</option>
       </select>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit"  (click)="CurrentLocation($event)" (click)="getQuestName(name.value)" (click)="getQuestDescription(description.value)" class="btn btn-primary">Submit</button>
   </form>
 </div>
 
@@ -32,15 +32,29 @@
 
     <ng-container *ngFor="let m of markers; let i = index">
 
-        <agm-marker (markerClick)="clickedMarker(m.label, i)" [latitude]="m.lat" [longitude]="m.lng" [label]="m.label" [iconUrl]="m.icon" *ngIf="m.isShown">
+        <agm-marker [latitude]="m.lat" [longitude]="m.lng" [label]="m.label" [iconUrl]="m.icon" *ngIf="m.isShown">
 
             <agm-info-window>
-                <div>{{m.content}}</div>
+                <div><h1 style="font-size: 100%;">{{m.content}}</h1></div>
             </agm-info-window>
 
         </agm-marker>
 
     </ng-container>
+
+    <ng-container *ngFor="let m of Locationmarkers; let i = index">
+
+      <agm-marker (markerClick)="clickedMarker(m.label, i)" [latitude]="m.lat" [longitude]="m.lng" [label]="m.label" [iconUrl]="m.icon" *ngIf="m.isShown">
+
+          <agm-info-window>
+              <div><h1 style="font-size: 100%;">{{name.value}}</h1></div>
+              <div>{{description.value}}</div>
+              <button type="submit" (click)="removeQuestMarker(i)" >remove</button>
+          </agm-info-window>
+
+      </agm-marker>
+
+  </ng-container>
 
     <agm-circle [latitude]="radiusLat" [longitude]="radiusLong" [radius]="radius"
         [circleDraggable]="false" [editable]="false" (dragEnd)="radiusDragEnd($event)"
@@ -49,6 +63,4 @@
 
 </agm-map>
 
-<div>Latitude: {{latitude}}</div>
-<div>Longitude: {{longitude}}</div>
-  </div>
+

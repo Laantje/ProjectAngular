@@ -1,15 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { GoogleMapsModule} from '@angular/google-maps';
 import { AgmCoreModule } from '@agm/core';
-
-import { fakeBackendProvider } from './helpers/fake-backend';
-
+import { FormsModule } from '@angular/forms'
 import { AppRoutingModule } from './app-routing.module';
-import { JwtInterceptor } from './helpers/jwt.interceptor';
-import { ErrorInterceptor } from './helpers/error.interceptor';
 import { AppComponent } from './app.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { LoginComponent } from './login/login.component';
@@ -21,6 +17,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LeaderboardsComponent } from './leaderboards/leaderboards.component';
 import { CharacterComponent } from './character/character.component';
 import { ShopComponent } from './shop/shop.component';
+import { TokenInterceptorService } from './services/token-interceptor.service';
+import { AuthenticationService} from './services/authentication.service'
+import { AuthGuard } from './helpers/auth.guard';
 import { RegisterComponent } from './register/register.component';
 
 @NgModule({
@@ -49,13 +48,10 @@ import { RegisterComponent } from './register/register.component';
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     NgbModule
   ],
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-  
-  // provider used to create fake backend
-  fakeBackendProvider],
+  providers: [AuthenticationService, AuthGuard,
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true },
 
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
