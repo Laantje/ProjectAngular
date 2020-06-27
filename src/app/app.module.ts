@@ -17,6 +17,11 @@ import { HomeComponent } from './home/home.component';
 import { QuestComponent } from './quest/quest.component';
 import { ServiceWorkerModule } from  '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LeaderboardsComponent } from './leaderboards/leaderboards.component';
+import { CharacterComponent } from './character/character.component';
+import { ShopComponent } from './shop/shop.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +29,11 @@ import { environment } from '../environments/environment';
     WelcomeComponent,
     LoginComponent,
     HomeComponent,
-    QuestComponent
+    QuestComponent,
+    LeaderboardsComponent,
+    CharacterComponent,
+    ShopComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +46,8 @@ import { environment } from '../environments/environment';
       apiKey:'AIzaSyAYUmxWepc6p4b076XMOvvn6ruY_5Zf8Ms',
       libraries: ["places"]
     }),
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    NgbModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

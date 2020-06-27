@@ -1,0 +1,15 @@
+.welcomeDiv {
+    position: relative;
+}
+
+.welcomeTextDiv {
+    border: solid;
+    border-radius: 3px;
+    border-width: 2px;
+    background-color: gainsboro;
+    padding:20px;
+    position: relative;
+    top:100px;
+    width:50%;
+    margin: 0 auto!important;
+}

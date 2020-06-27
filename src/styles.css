@@ -1,2 +1,18 @@
 
 a { cursor: pointer }
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.btn {
+    border-color: black;
+    border-width: 3px;
+    background-color: #39b54a;
+    color:white;
+}
+
+.btn:hover {
+    color:yellow;
+}

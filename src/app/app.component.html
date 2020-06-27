@@ -1,36 +1,57 @@
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
-<meta charset="utf-8"/>
-<title>Javascript memory</title>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script type="text/javascript" src="Memory_src.js"></script>
-<script src="jscolor.min.js"></script>
-<link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#1976d2">
+  <meta charset="utf-8" />
+  <title>Walk Game</title>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script type="text/javascript" src="Memory_src.js"></script>
+  <script src="jscolor.min.js"></script>
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#1976d2">
 
 </head>
+
 <body>
-<header>
   <!-- nav -->
-<nav class="navbar navbar-expand navbar-dark bg-dark">
-  <div class="navbar-nav" *ngIf="!currentUser">
-      <a class="nav-item nav-link" (click)="logout()">Login</a>
+  <div class="headDiv">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="headName">
+            <a href="/home">Walk Game</a>
+          </div>
+        </div>
+        <div class="col">
+          <nav class="navbar navbar-expand-sm">
+            <div class="navbar-nav" *ngIf="!currentUser">
+              <div class="row">
+                <a class="nav-item" routerLink="/login">Login</a>
+                <a class="nav-item" routerLink="/register">Register</a>
+              </div>
+            </div>
+
+            <div ngbDropdown class="d-inline-block" *ngIf="currentUser">
+              <button class="navMenuButton" id="dropdownMenu" ngbDropdownToggle>Menu</button>
+              <div ngbDropdownMenu aria-labelledby="dropdownMenu">
+                <button ngbDropdownItem routerLink="/home">Home</button>
+                <button ngbDropdownItem routerLink="/leaderboards">Leaderboards</button>
+                <button ngbDropdownItem routerLink="/character">Character</button>
+                <button ngbDropdownItem routerLink="/quest">Quests</button>
+                <button ngbDropdownItem routerLink="/shop">Shop</button>
+                <button ngbDropdownItem (click)=logout()>Logout</button>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="navbar-nav" *ngIf="currentUser">
-    <a class="nav-item nav-link" (click)="logout()" >Logout</a>
-    <a class="nav-item nav-link" routerLink="/home" >Home</a>
-    <a class="nav-item nav-link" routerLink="/" >Welcome</a>
-    <a class="nav-item nav-link" routerLink="/quest">Quest</a>
+  <!-- main app container -->
+  <div class="container">
+    <router-outlet></router-outlet>
   </div>
-</nav>
-<!-- main app container -->
-<div class="container">
-  <router-outlet></router-outlet>
-</div>
-
-</header>
-
 </body>
+
 </html>
