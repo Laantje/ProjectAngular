@@ -130,5 +130,8 @@
       }
     }
   },
-  "defaultProject": "walkapp"
+  "defaultProject": "walkapp",
+  "cli": {
+    "analytics": "e51ca49d-f1d1-44b2-b22f-ef9714c30389"
+  }
 }
