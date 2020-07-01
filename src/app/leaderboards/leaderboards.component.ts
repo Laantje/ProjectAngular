@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { PointsService} from '../services/points.service'
+import { HttpClient} from '@angular/common/http';  
+
 
 @Component({
   selector: 'app-leaderboards',
@@ -7,9 +11,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LeaderboardsComponent implements OnInit {
 
-  constructor() { }
 
-  ngOnInit(): void {
+  constructor(public PointsService: PointsService, 
+    private httpservice: HttpClient,
+    private _router: Router) { }
+
+    pointsUserData: String[]
+  ngOnInit(){
+    this.httpservice.get('http://localhost:3000/api/leaderboard').subscribe(data =>
+    {
+      this.pointsUserData = data as string[];
+    });
   }
-
 }

@@ -20,10 +20,14 @@ import { CharacterComponent } from './character/character.component';
 import { ShopComponent } from './shop/shop.component';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { AuthenticationService} from './services/authentication.service'
+import { PointsService} from './services/points.service'
 import { AuthGuard } from './helpers/auth.guard';
 import { RegisterComponent } from './register/register.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MarkersService } from './services/markers.service';
+
+
 
 @NgModule({
   declarations: [
@@ -49,12 +53,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       apiKey:'AIzaSyAYUmxWepc6p4b076XMOvvn6ruY_5Zf8Ms',
       libraries: ["places"]
     }),
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('service-worker.js', { enabled: environment.production }),
     NgbModule,
     BrowserAnimationsModule,
     MatDialogModule
   ],
-  providers: [AuthenticationService, AuthGuard,
+  providers: [AuthenticationService, AuthGuard, PointsService, MarkersService,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true },
 
   ],

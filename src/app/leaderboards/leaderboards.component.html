@@ -1,3 +1,4 @@
+<link rel="manifest" href="manifest.webmanifest">
 <div class="container">
 <div class="leader-header">
     <h3>Leaderboards</h3>
@@ -9,43 +10,21 @@
                 <p><b>Rank</b></p>
             </th>
             <th>
-                <p><b>Name</b></p>
+                <p><b>leader</b></p>
             </th>
             <th>
-                <p><b>Points</b></p>
+                <p><b>points</b></p>
             </th>
         </tr>
-        <tr>
+        <tr *ngFor="let item of pointsUserData let i = index">
             <td>
-                <p>1</p>
+                <p>{{i+1}}</p>
             </td>
             <td>
-                <p>Albert</p>
+                <p>{{item.username}}</p>
             </td>
             <td>
-                <p>298423</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <p>2</p>
-            </td>
-            <td>
-                <p>Jan</p>
-            </td>
-            <td>
-                <p>86534</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <p>3</p>
-            </td>
-            <td>
-                <p>Henk</p>
-            </td>
-            <td>
-                <p>43123</p>
+                <p>{{item.points}}</p>
             </td>
         </tr>
     </table>

@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgModule } from '@angular/core';
 
 import { Router } from '@angular/router';
 
 import { AuthenticationService } from '../services/authentication.service';
+import { NgModel } from '@angular/forms';
 // import { User } from '../models/user';
 
 
@@ -11,6 +12,7 @@ import { AuthenticationService } from '../services/authentication.service';
   templateUrl: './welcome.component.html',
   styleUrls: ['./welcome.component.css']
 })
+
 export class WelcomeComponent implements OnInit {
   title = 'memory';
 

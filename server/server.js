@@ -5,6 +5,7 @@ const cors = require('cors')
 const PORT = 3000
 const api = require('./routes/api')
 const app = express()
+app.use(compression())
 app.use(cors())
 
 app.use(bodyparser.json())

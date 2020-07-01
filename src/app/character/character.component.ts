@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Preset} from '../preset';
+import { Router } from '@angular/router';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 @Component({
@@ -26,11 +27,13 @@ export class CharacterComponent implements OnInit {
   presetAmmount = 0;
 
   presetArray = [];
+  chararcterData = {skin: '', hair: '', eyes: ''}
   constructor(
-    public dialogRef: MatDialogRef<CharacterComponent>) { }
+    public dialogRef: MatDialogRef<CharacterComponent>,
+    private _router: Router){}
 
   ngOnInit() {
-    this.presetArray = JSON.parse(localStorage.getItem('presetArray'));
+    this.presetArray = JSON.parse(localStorage.getItem('presets'));
   }
 
   incrementSkin() {

@@ -4,13 +4,18 @@ import {
   ViewChild,
   ElementRef,
   NgZone,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import {
   MapsAPILoader
 } from '@agm/core';
-import { __values } from 'tslib';
+
+import { Router } from '@angular/router';
+import { MarkersService} from '../services/markers.service'
+import { HttpClient} from '@angular/common/http';  
 
 // just an interface for type safety.
+
 interface marker {
   lat: number;
   lng: number;
@@ -40,6 +45,7 @@ interface questmarker {
   templateUrl: './quest.component.html',
   styleUrls: ['./quest.component.css']
 })
+
 export class QuestComponent implements OnInit {
   latitude: number;
   longitude: number;
@@ -55,7 +61,7 @@ export class QuestComponent implements OnInit {
   radiusLat = 0;
   radiusLong = 0;
   index;
-
+  questmarker = {name: '', description: '', latitude: '' , longitude: ''}
   list = []
   markers: marker[] = []
   Locationmarkers: questmarker[] = []
@@ -85,6 +91,7 @@ export class QuestComponent implements OnInit {
     });
   }
 
+  marker = this.Locationmarkers;
   removeQuestMarker(index: number) {
     for (var i = 0; i < this.Locationmarkers.length; i ++ ){
       if (i == index){
@@ -115,15 +122,20 @@ export class QuestComponent implements OnInit {
   @ViewChild('search')
   public searchElementRef: ElementRef;
 
-
+  markerData: String[]
   constructor(
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone,
+    private httpservice: HttpClient,
+    public MarkersService: MarkersService,
+    private http: HttpClient,
+    private _router: Router
   ) {}
 
   ngOnInit() {
     //load Places Autocomplete
     //load Map
+  
     this.mapsAPILoader.load().then(() => {
       this.setCurrentLocation();
       this.geoCoder = new google.maps.Geocoder;
@@ -214,6 +226,15 @@ export class QuestComponent implements OnInit {
   getQuestName(refVar) {}
 
 
+  postMarker() {
+    this.MarkersService.postMarkers(this.questmarker)
+    .subscribe(
+        res => {(res)
+        this.http.post('marker', res.marker)
+        },
+        err => console.log(err)
+    )
+}
   CurrentLocation(event) {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
