@@ -3,9 +3,8 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
     username: String,
     password: String,
-    balance: Number,
-    points: Number,
-    rank: Number,
+    balance: { type: Number, default: '0'},
+    points: { type: Number, default: '0'}
 })
 
 module.exports = mongoose.model('user', userSchema, 'users')

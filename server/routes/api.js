@@ -4,6 +4,7 @@ const router = express.Router();
 const User = require('../models/user');
 const Preset = require('../models/preset');
 const Markers = require('../models/markers');
+const Item = require('../models/items');
 const mongoose = require('mongoose');
 const { exists } = require('../models/user');
 const db = "mongodb+srv://Jorrit:Wijte1997.@memory-ayyl4.mongodb.net/test?retryWrites=true&w=majority";
@@ -41,13 +42,24 @@ router.post('/register', (req, res) => {
   let user = new User(userData);
   user.save((error, registerdUser) => {
     if (error) {
-      console.log(error);
-    } else {
-      let payload = {
-        subject: registerdUser._id
+      console.log(error.code);
+      if(error.code == 11000 || error.code == 11001) {
+        res.status(403).send("Already exists")
       }
-      let token = jwt.sign(payload, 'secretKey')
-      res.status(200).send({token})
+    } else {
+      let presetBody = '{ "username": "'+userData.username+'", "skin": 0, "hair": 0, "eyes": 0 }';
+      let preset = new Preset(JSON.parse(presetBody));
+      preset.save((error, registerdPreset) => {
+        if (error) {
+          console.log(error);
+        } else {
+          let payload = {
+            subject: registerdUser._id
+          }
+          let token = jwt.sign(payload, 'secretKey')
+          res.status(200).send({token})
+        }
+      })
     }
   })
 })

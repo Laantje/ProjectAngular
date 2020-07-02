@@ -11,5 +11,6 @@
     position: relative;
     top:100px;
     width:50%;
+    min-width: 200px;
     margin: 0 auto!important;
 }

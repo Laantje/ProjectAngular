@@ -234,7 +234,8 @@ export class QuestComponent implements OnInit {
         },
         err => console.log(err)
     )
-}
+  }
+
   CurrentLocation(event) {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -273,6 +274,12 @@ export class QuestComponent implements OnInit {
         // console.log(min)
         // console.log(max)
         this.addQuestMarker(this.latitude, this.longitude, this.radius, this.questname, this.description);
+
+        this.questmarker.latitude = this.latitude.toString()
+        this.questmarker.longitude = this.longitude.toString()
+        
+        //Send to db
+        this.postMarker()
       });
     }
   }
