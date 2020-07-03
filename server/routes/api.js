@@ -101,9 +101,11 @@ router.get('/leaderboard', async (req, res, next) => {
 });
 
 
-router.get('/markers', async (req, res, next) => {
-  const result = await Markers.find({})
-  res.status(200).json(result.map(entry => ({
+router.get('/markers', async(req, res, next) => {
+  const result = await Markers.find({Markers: Markers.Markers})
+                                  .select('username latitude longitude name description')
+  res.status(200).json(result.map(entry => ({                             
+    username: entry.username,
     latitude: entry.latitude,
     longitude: entry.longitude,
     name: entry.name,
@@ -128,7 +130,6 @@ router.post('/markers',function (req, res){
   })
   
 })
-router.use('/markers',(req, res) =>{
-  res.sendFile(__dirname + "/quest.component.html" )
-})
+
+
 module.exports = router;

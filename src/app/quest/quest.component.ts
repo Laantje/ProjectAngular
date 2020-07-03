@@ -136,7 +136,11 @@ export class QuestComponent implements OnInit {
   ngOnInit() {
     //load Places Autocomplete
     //load Map
-  
+
+      this.httpservice.get('http://localhost:3000/api/markers').subscribe(data =>
+      {
+        this.questmarker = <any>data;
+      });
     this.mapsAPILoader.load().then(() => {
       this.setCurrentLocation();
       this.geoCoder = new google.maps.Geocoder;
@@ -230,8 +234,11 @@ export class QuestComponent implements OnInit {
   getQuestName(refVar) {}
 
   //This function loads all open quests of user in the map
-  RefreshMarkers() {
-
+  refreshMarkers() {
+    this.MarkersService.getMarkers(this.questmarker) //<br/><br/><b>
+        this.http.get('marker')
+        console.log(this.questmarker);
+        
   }
 
   postMarker() {

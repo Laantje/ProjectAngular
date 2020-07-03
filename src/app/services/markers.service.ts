@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router'
 import { AgmMarker } from '@agm/core';
 
-
 @Injectable()
 
 export class MarkersService {
@@ -15,6 +14,9 @@ export class MarkersService {
 
     postMarkers(AgmMarker){
         return this.http.post<any>(this._markersUrl, AgmMarker)
+    }
+    getMarkers(AgmMarker){
+        return this.http.get<any>(this._markersUrl, AgmMarker)
     }
    
 }
