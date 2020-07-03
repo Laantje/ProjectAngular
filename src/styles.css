@@ -14,14 +14,20 @@ body {
 }
 
 .btn:hover {
-    color:yellow;
+    color:yellow!important;
+    border-color: black!important;
+    border-width: 3px!important;
+    background-color: #39b54a!important;
+    outline: none!important;
 }
 
-.btn:active {
-    border-color: black;
-    border-width: 3px;
-    background-color: #39b54a;
-    color:white;
+.btn:active, .btn:focus {
+    border-color: black!important;
+    border-width: 3px!important;
+    background-color: #39b54a!important;
+    color:white!important;
+    outline: none!important;
+    box-shadow: unset!important;
 }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

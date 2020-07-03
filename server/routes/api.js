@@ -114,6 +114,7 @@ router.get('/markers', async (req, res, next) => {
 router.post('/markers',function (req, res){
   console.log('post a marker');
   var newMarker = new Markers()
+  newMarker.username = req.body.username;
   newMarker.name = req.body.name;
   newMarker.latitude = req.body.latitude
   newMarker.longitude = req.body.longitude
