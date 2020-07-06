@@ -6,7 +6,7 @@ const Preset = require('../models/preset');
 const Markers = require('../models/markers');
 const Item = require('../models/items');
 const mongoose = require('mongoose');
-const { exists } = require('../models/user');
+const markers = require('../models/markers');
 const db = "mongodb+srv://Jorrit:Wijte1997.@memory-ayyl4.mongodb.net/test?retryWrites=true&w=majority";
 
 mongoose.connect(db, err => {
@@ -101,17 +101,11 @@ router.get('/leaderboard', async (req, res, next) => {
 });
 
 
-router.get('/markers', async(req, res, next) => {
-  const result = await Markers.find({Markers: Markers.Markers})
-                                  .select('username latitude longitude name description')
-  res.status(200).json(result.map(entry => ({                             
-    username: entry.username,
-    latitude: entry.latitude,
-    longitude: entry.longitude,
-    name: entry.name,
-    description: entry.description,
-  })));
-});
+router.get('/markers', async(req, res) => {
+  const result = await Markers.find({})
+                                  .select('username latitude logitude description name')
+    res.status(200).json(result)
+  });
 
 router.post('/markers',function (req, res){
   console.log('post a marker');

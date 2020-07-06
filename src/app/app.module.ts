@@ -23,7 +23,7 @@ import { AuthenticationService} from './services/authentication.service'
 import { PointsService} from './services/points.service'
 import { AuthGuard } from './helpers/auth.guard';
 import { RegisterComponent } from './register/register.component';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MarkersService } from './services/markers.service';
 
@@ -40,9 +40,11 @@ import { MarkersService } from './services/markers.service';
     LeaderboardsComponent,
     CharacterComponent,
     ShopComponent,
-    RegisterComponent
+    RegisterComponent,
+
   ],
   imports: [
+    MatDialogModule,
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,

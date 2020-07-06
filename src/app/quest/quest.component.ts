@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 import { MarkersService} from '../services/markers.service'
 import { HttpClient} from '@angular/common/http';  
 
+
 // just an interface for type safety.
 
 interface marker {
@@ -237,8 +238,8 @@ export class QuestComponent implements OnInit {
   refreshMarkers() {
     this.MarkersService.getMarkers(this.questmarker) //<br/><br/><b>
         this.http.get('marker')
-        console.log(this.questmarker);
-        
+        console.log(this.questmarker)
+     
   }
 
   postMarker() {
