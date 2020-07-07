@@ -26,6 +26,7 @@ import { RegisterComponent } from './register/register.component';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MarkersService } from './services/markers.service';
+import {MatDialogRef} from '@angular/material/dialog';
 
 
 
@@ -51,17 +52,20 @@ import { MarkersService } from './services/markers.service';
     HttpClientModule,
     GoogleMapsModule,
     FormsModule,
+    MatDialogModule,
     AgmCoreModule.forRoot({
       apiKey:'AIzaSyAYUmxWepc6p4b076XMOvvn6ruY_5Zf8Ms',
       libraries: ["places"]
     }),
     ServiceWorkerModule.register('service-worker.js', { enabled: environment.production, registrationStrategy: 'registerImmediately' }),
     NgbModule,
-    BrowserAnimationsModule,
-    MatDialogModule
+    BrowserAnimationsModule
   ],
   providers: [AuthenticationService, AuthGuard, PointsService, MarkersService,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true },
+    { provide: MatDialogRef, useValue: {} },
+
+
 
   ],
   bootstrap: [AppComponent]
