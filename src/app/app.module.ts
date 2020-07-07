@@ -73,7 +73,8 @@ const routes: Routes = [
     ServiceWorkerModule.register('service-worker.js', { enabled: environment.production }),
     NgbModule,
     BrowserAnimationsModule,
-    RouterModule.forRoot(routes, { useHash: true })
+    RouterModule.forRoot(routes, { useHash: true }),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
     //MatDialogModule,
   ],
   providers: [AuthenticationService, AuthGuard, PointsService, MarkersService,

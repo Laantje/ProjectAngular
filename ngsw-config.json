@@ -11,12 +11,7 @@
           "/index.html",
           "/manifest.webmanifest",
           "/*.css",
-          "/*.js",
-          "/home.html",
-          "/vendor.js",
-          "/styles.js",
-          "/main.js",
-          "/polyfills.js"
+          "/*.js"
         ]
       }
     }, {
