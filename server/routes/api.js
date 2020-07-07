@@ -114,7 +114,7 @@ router.get('/markers', async(req, res, next) => {
 });
 
 router.post('/markers',function (req, res){
-  console.log('post a marker');
+  console.log('Post a marker');
   var newMarker = new Markers()
   newMarker.username = req.body.username;
   newMarker.name = req.body.name;
@@ -132,8 +132,14 @@ router.post('/markers',function (req, res){
 })
 
 router.put('/markers',function (req, res){
-  
-})
+  console.log('Deleting marker with username: ' + req.body.username);
+    Markers.deleteOne({ 'username': req.body.username }, (err) => {
+      if (err)
+          throw console.log(err);
+      else 
+        res.status(200);
+    })
+  })
 
 
 module.exports = router;
