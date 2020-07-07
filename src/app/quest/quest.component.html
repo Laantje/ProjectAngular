@@ -25,6 +25,7 @@
       </select>
     </div>
     <button type="submit"  (click)="CurrentLocation($event)" (click)="getQuestName(name.value)" (click)="getQuestDescription(description.value)" class="btn btn-primary">Submit</button>
+    <button type="submit" (click)="refreshMarkers()"></button>
   </form>
   <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
 

@@ -1,8 +1,9 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 const markerSchema = new Schema({
-    latitude: Number,
-    longitude: Number,
+    username: String,
+    latitude: String,
+    longitude: String,
     name: String,
     description: String
 })

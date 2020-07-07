@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 import { MarkersService} from '../services/markers.service'
 import { HttpClient} from '@angular/common/http';  
 
+
 // just an interface for type safety.
 
 interface marker {
@@ -55,13 +56,14 @@ export class QuestComponent implements OnInit {
   content: string
   questname: string;
   description: string;
+  newDescription:string;
   private geoCoder;
   // Radius
   radius = 4000;
   radiusLat = 0;
   radiusLong = 0;
   index;
-  questmarker = {name: '', description: '', latitude: '' , longitude: ''}
+  questmarker = {username: '', name: '', description: '', latitude: '', longitude: ''}
   list = []
   markers: marker[] = []
   Locationmarkers: questmarker[] = []
@@ -85,9 +87,9 @@ export class QuestComponent implements OnInit {
       lng,
       radius,
       questname,
-      description,
+      description: description,
       isShown: true,
-      draggable: false,
+      draggable: false
     });
   }
 
@@ -135,7 +137,11 @@ export class QuestComponent implements OnInit {
   ngOnInit() {
     //load Places Autocomplete
     //load Map
-  
+
+      this.httpservice.get('http://localhost:3000/api/markers').subscribe(data =>
+      {
+        this.questmarker = <any>data;
+      });
     this.mapsAPILoader.load().then(() => {
       this.setCurrentLocation();
       this.geoCoder = new google.maps.Geocoder;
@@ -155,6 +161,9 @@ export class QuestComponent implements OnInit {
           this.latitude = place.geometry.location.lat();
           this.longitude = place.geometry.location.lng();
           this.zoom = 12;
+
+          //Refresh markers!
+          //RefreshMarkers();
         });
       });
     });
@@ -225,19 +234,29 @@ export class QuestComponent implements OnInit {
 
   getQuestName(refVar) {}
 
+  //This function loads all open quests of user in the map
+  refreshMarkers() {
+    this.MarkersService.getMarkers(this.questmarker) //<br/><br/><b>
+        this.http.get('marker')
+        console.log(this.questmarker)
+     
+  }
 
   postMarker() {
-    this.MarkersService.postMarkers(this.questmarker)
+    this.MarkersService.postMarkers(this.questmarker) //<br/><br/><b>
     .subscribe(
         res => {(res)
         this.http.post('marker', res.marker)
+        this.newDescription = this.description + "by user: " + this.questmarker.name + "</b>";
+        console.log(this.newDescription);
+        this.addQuestMarker(this.latitude, this.longitude, this.radius, this.questname, this.newDescription);
         },
         err => console.log(err)
     )
   }
 
   CurrentLocation(event) {
-    if ('geolocation' in navigator) {
+    if ('geolocation' in navigator && localStorage.getItem('username') != null) {
       navigator.geolocation.getCurrentPosition((position) => {
         Math.floor(Math.random() * (max - min + 1) + min);
         // var random: number = (Math.random() * (-0.3 + 0.3))
@@ -273,10 +292,10 @@ export class QuestComponent implements OnInit {
         this.zoom = 11;
         // console.log(min)
         // console.log(max)
-        this.addQuestMarker(this.latitude, this.longitude, this.radius, this.questname, this.description);
 
         this.questmarker.latitude = this.latitude.toString()
         this.questmarker.longitude = this.longitude.toString()
+        this.questmarker.username = localStorage.getItem('username').toString()
         
         //Send to db
         this.postMarker()

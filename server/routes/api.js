@@ -6,7 +6,7 @@ const Preset = require('../models/preset');
 const Markers = require('../models/markers');
 const Item = require('../models/items');
 const mongoose = require('mongoose');
-const { exists } = require('../models/user');
+const markers = require('../models/markers');
 const db = "mongodb+srv://Jorrit:Wijte1997.@memory-ayyl4.mongodb.net/test?retryWrites=true&w=majority";
 
 mongoose.connect(db, err => {
@@ -101,19 +101,16 @@ router.get('/leaderboard', async (req, res, next) => {
 });
 
 
-router.get('/markers', async (req, res, next) => {
+router.get('/markers', async(req, res) => {
   const result = await Markers.find({})
-  res.status(200).json(result.map(entry => ({
-    latitude: entry.latitude,
-    longitude: entry.longitude,
-    name: entry.name,
-    description: entry.description,
-  })));
-});
+                                  .select('username latitude logitude description name')
+    res.status(200).json(result)
+  });
 
 router.post('/markers',function (req, res){
   console.log('post a marker');
   var newMarker = new Markers()
+  newMarker.username = req.body.username;
   newMarker.name = req.body.name;
   newMarker.latitude = req.body.latitude
   newMarker.longitude = req.body.longitude
@@ -127,7 +124,6 @@ router.post('/markers',function (req, res){
   })
   
 })
-router.use('/markers',(req, res) =>{
-  res.sendFile(__dirname + "/quest.component.html" )
-})
+
+
 module.exports = router;
