@@ -7,6 +7,7 @@ const Markers = require('../models/markers');
 const Items = require('../models/items');
 const mongoose = require('mongoose');
 const { exists } = require('../models/user');
+const { Console } = require('console');
 const db = "mongodb+srv://Jorrit:Wijte1997.@memory-ayyl4.mongodb.net/test?retryWrites=true&w=majority";
 const itemCosts = [50, 250, 75, 50];
 
@@ -103,6 +104,7 @@ router.get('/leaderboard', async (req, res, next) => {
 
 
 router.get('/markers', async(req, res, next) => {
+  console.log()
   const result = await Markers.find({Markers: Markers.Markers})
                                   .select('username latitude longitude name description')
   res.status(200).json(result.map(entry => ({                             
@@ -168,19 +170,20 @@ router.put('/markers',function (req, res){
     })
   });
 
-  router.post('/items', function (req, res) {
-    console.log("POST ITEM" + req.body);
-    User.findOne({ 'username': req.body.username }, (err, user) => {
+  router.post('/items', (req, res) => {
+    User.find({ 'username': req.body.username }, (err, user) => {
       if (err)
           throw console.log(err);
       else  {
         //Check if item exists
-        if(req.body.itemid < 0 || req.body.itemid > itemCosts.length-1) {
+        if(req.body.itemid < 0 || req.body.itemid > itemCosts.length) {
           res.status(401).send("Doesn't exists.");
+          return;
         }
         //Check money
-        else if(user.balance < itemCosts[req.body.itemid]) {
+        else if(user[0].balance < itemCosts[req.body.itemid]) {
           res.status(401).send("Not enough money.");
+          return;
         }
         //Check if user already has item
         Items.findOne({ 'username': req.body.username, "itemid": req.body.itemid }, (err, items) => {
@@ -188,13 +191,21 @@ router.put('/markers',function (req, res){
               throw console.log(err);
           else  {
               if(!items) {
-                let newBalance = user.balance - itemCosts[req.body.itemid];
-                User.updateOne({ 'username': req.body.username, $set: {'balance': newBalance} }, (error) => {
+                let itemBody = '{ "username": "'+req.body.username+'", "itemid": "'+req.body.itemid+'" }';
+                let item = new Items(JSON.parse(itemBody));
+                item.save((error, newItem) => {
+                  if (error) {
+                    console.log(error);
+                  } else {
+                    let newBalance = user[0].balance - itemCosts[req.body.itemid-1];
+                    User.updateOne({ 'username': req.body.username, $set: {'balance': newBalance} }, (error) => {
                     if (error) {
                       console.log(error);
                     } else {
-                      res.status(200);
+                      console.log("WORKS");
                     }
+                  })
+                  }
                 })
               }
               else {
@@ -206,8 +217,8 @@ router.put('/markers',function (req, res){
     }) 
   });
 
-  router.get('/items', function (req, res) {
-    console.log("GET ITEMS" + req.body);
+  router.put('/items', (req, res) => {
+    console.log("GET ITEMS" + req.body.username);
     //find user
     User.find({ 'username': req.body.username }, (err, userPoints) => {
       if (err)
@@ -217,12 +228,18 @@ router.put('/markers',function (req, res){
         Items.find({ 'username': req.body.username }, (err, result) => {
         if (err)
           throw console.log(err);
-        else 
-          console.log(req.body.username);
-          res.status(200).json(result.map(entry => ({                             
-            itemid: entry.itemdid,
-            points: userPoints.balance
-        })));
+        else {
+          if(!result[0]) {
+            let pointsBody = '[{ "itemid": "", "points": "'+userPoints[0].balance+'" }, { "itemid": "", "points": "'+userPoints[0].balance+'" }]';
+            let points = JSON.parse(pointsBody);
+            res.status(200).json(points);
+          } else {
+            res.status(200).json(result.map(entry => ({                             
+              itemid: entry.itemid,
+              points: userPoints[0].balance
+            })));
+          } 
+        }
       }) 
     }) 
   });
