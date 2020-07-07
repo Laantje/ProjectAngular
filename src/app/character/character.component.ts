@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Preset} from '../preset';
 import { Router } from '@angular/router';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+//import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-character',
@@ -29,7 +29,7 @@ export class CharacterComponent implements OnInit {
   presetArray = [];
   chararcterData = {skin: '', hair: '', eyes: ''}
   constructor(
-    public dialogRef: MatDialogRef<CharacterComponent>,
+    //public dialogRef: MatDialogRef<CharacterComponent>,
     private _router: Router){}
 
   ngOnInit() {

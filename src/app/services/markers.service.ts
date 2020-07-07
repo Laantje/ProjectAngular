@@ -18,6 +18,8 @@ export class MarkersService {
     getMarkers(AgmMarker){
         return this.http.get<any>(this._markersUrl, AgmMarker)
     }
-   
+    putMarkers() {
+        
+    }
 }
 
