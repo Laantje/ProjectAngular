@@ -23,7 +23,7 @@ import { AuthenticationService} from './services/authentication.service'
 import { PointsService} from './services/points.service'
 import { AuthGuard } from './helpers/auth.guard';
 import { RegisterComponent } from './register/register.component';
-import { MatDialogModule } from '@angular/material/dialog';
+//import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MarkersService } from './services/markers.service';
 
@@ -55,8 +55,8 @@ import { MarkersService } from './services/markers.service';
     }),
     ServiceWorkerModule.register('service-worker.js', { enabled: environment.production }),
     NgbModule,
-    BrowserAnimationsModule,
-    MatDialogModule
+    BrowserAnimationsModule//,
+    //MatDialogModule
   ],
   providers: [AuthenticationService, AuthGuard, PointsService, MarkersService,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true },

@@ -131,5 +131,9 @@ router.post('/markers',function (req, res){
   
 })
 
+router.put('/markers',function (req, res){
+  
+})
+
 
 module.exports = router;

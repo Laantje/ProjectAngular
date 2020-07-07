@@ -13,6 +13,13 @@ body {
     color:white;
 }
 
+.btn:disabled, .btn:disabled:hover {
+    border-color: black!important;
+    border-width: 3px!important;
+    background-color: grey!important;
+    color:white!important;
+}
+
 .btn:hover {
     color:yellow!important;
     border-color: black!important;
