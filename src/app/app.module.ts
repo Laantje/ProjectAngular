@@ -71,11 +71,10 @@ const routes: Routes = [
       apiKey:'AIzaSyAYUmxWepc6p4b076XMOvvn6ruY_5Zf8Ms',
       libraries: ["places"]
     }),
-    ServiceWorkerModule.register('service-worker.js', { enabled: environment.production }),
     NgbModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(routes, { useHash: true }),
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     //MatDialogModule,
   ],
   providers: [AuthenticationService, AuthGuard, PointsService, MarkersService, ShopService,
