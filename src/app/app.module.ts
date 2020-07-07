@@ -55,11 +55,9 @@ import {MatDialogRef} from '@angular/material/dialog';
       apiKey:'AIzaSyAYUmxWepc6p4b076XMOvvn6ruY_5Zf8Ms',
       libraries: ["places"]
     }),
-    ServiceWorkerModule.register('service-worker.js', { enabled: environment.production, registrationStrategy: 'registerImmediately' }),
     NgbModule,
-    BrowserAnimationsModule//,
-    //MatDialogModule
-
+    BrowserAnimationsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [AuthenticationService, AuthGuard, PointsService, MarkersService,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true },
