@@ -55,7 +55,7 @@ import { MarkersService } from './services/markers.service';
       apiKey:'AIzaSyAYUmxWepc6p4b076XMOvvn6ruY_5Zf8Ms',
       libraries: ["places"]
     }),
-    ServiceWorkerModule.register('service-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('service-worker.js', { enabled: environment.production, registrationStrategy: 'registerImmediately' }),
     NgbModule,
     BrowserAnimationsModule,
     MatDialogModule
