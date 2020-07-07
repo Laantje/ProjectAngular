@@ -96,19 +96,18 @@ export class QuestComponent implements OnInit {
   }
 
   marker = this.Locationmarkers;
+  
   removeQuestMarker() {
-    /*this.httpservice.put('http://localhost:3000/api/markers').subscribe(data =>
-    {
-      this.ReceivedMarkers = <any>data;
-
-      this.mapsAPILoader.load().then(() => {
-        this.geoCoder = new google.maps.Geocoder;
-        
-        if(!this.RefreshMarker()) {
-          this.setCurrentLocation();
-        }
-      });
-    });*/
+    let removeMarkerOfUser = {username: ''}
+    removeMarkerOfUser.username = localStorage.getItem('username').toString();
+    this.MarkersService.putMarker(removeMarkerOfUser) //<br/><br/><b>
+    .subscribe(
+        res => {(res)
+        //this.http.put('username', removeMarkerOfUser)
+        },
+        err => console.log(err)
+    )
+    window.location.reload();
   }
 
   max(coordType: 'lat' | 'lng'): number {
