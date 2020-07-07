@@ -4,7 +4,7 @@
     <h3>Shop</h3>
 </div>
 <div class="shop-body">
-<h5>Your current amount of points: 500</h5>
+<h5>Your current money: {{ userPoints }}</h5>
 <div class="row">
     <ng-container *ngFor="let preset of verkoopArray;let i=index" >
         <div class="col-md-6 shopItem">
@@ -16,8 +16,8 @@
             </div>
         </div>
         <div class="price">
-            <p>Price: 500 points</p>
-          <button class="btn" type="button"(click)="buyPreset(preset)">Buy</button>
+            <p>Price: {{ itemCosts[i] }} points</p>
+          <button [disabled]="itemExists[i]" class="btn" type="button"(click)="buyItem(i)">Buy</button>
         </div>
     </div>
     </ng-container>
