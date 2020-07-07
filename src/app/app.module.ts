@@ -19,8 +19,9 @@ import { LeaderboardsComponent } from './leaderboards/leaderboards.component';
 import { CharacterComponent } from './character/character.component';
 import { ShopComponent } from './shop/shop.component';
 import { TokenInterceptorService } from './services/token-interceptor.service';
-import { AuthenticationService} from './services/authentication.service'
-import { PointsService} from './services/points.service'
+import { AuthenticationService} from './services/authentication.service';
+import { PointsService } from './services/points.service';
+import { ShopService } from './services/shop.service';
 import { AuthGuard } from './helpers/auth.guard';
 import { RegisterComponent } from './register/register.component';
 //import { MatDialogModule } from '@angular/material/dialog';
@@ -75,7 +76,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes, { useHash: true })
     //MatDialogModule,
   ],
-  providers: [AuthenticationService, AuthGuard, PointsService, MarkersService,
+  providers: [AuthenticationService, AuthGuard, PointsService, MarkersService, ShopService,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true },
     //{ provide: LocationStrategy, useClass: HashLocationStrategy }
   ],

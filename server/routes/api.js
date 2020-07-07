@@ -4,10 +4,11 @@ const router = express.Router();
 const User = require('../models/user');
 const Preset = require('../models/preset');
 const Markers = require('../models/markers');
-const Item = require('../models/items');
+const Items = require('../models/items');
 const mongoose = require('mongoose');
 const { exists } = require('../models/user');
 const db = "mongodb+srv://Jorrit:Wijte1997.@memory-ayyl4.mongodb.net/test?retryWrites=true&w=majority";
+const itemCosts = [50, 250, 75, 50];
 
 mongoose.connect(db, err => {
   if (err) {
@@ -141,5 +142,89 @@ router.put('/markers',function (req, res){
     })
   })
 
+  router.get('/preset', function (req, res) {
+    console.log("GET PRESET");
+    Items.find({ 'username': req.body.username }, (err) => {
+      if (err)
+          throw console.log(err);
+      else 
+        res.status(200).json(result.map(entry => ({                             
+          username: entry.username,
+          skin: entry.skin,
+          hair: entry.hair,
+          eyes: entry.eyes
+        })));
+    }) 
+  });
+
+  router.post('/preset', function (req, res) {
+    console.log("POST PRESET");
+    Preset.updateOne({ 'username': req.body.username, $set: {'skin': req.body.skin}, $set: {'hair': req.body.hair}, $set: {'eyes': req.body.eyes} }, (error) => {
+      if (error) {
+        console.log(error);
+      } else {
+        res.status(200);
+      }
+    })
+  });
+
+  router.post('/items', function (req, res) {
+    console.log("POST ITEM" + req.body);
+    User.findOne({ 'username': req.body.username }, (err, user) => {
+      if (err)
+          throw console.log(err);
+      else  {
+        //Check if item exists
+        if(req.body.itemid < 0 || req.body.itemid > itemCosts.length-1) {
+          res.status(401).send("Doesn't exists.");
+        }
+        //Check money
+        else if(user.balance < itemCosts[req.body.itemid]) {
+          res.status(401).send("Not enough money.");
+        }
+        //Check if user already has item
+        Items.findOne({ 'username': req.body.username, "itemid": req.body.itemid }, (err, items) => {
+          if (err)
+              throw console.log(err);
+          else  {
+              if(!items) {
+                let newBalance = user.balance - itemCosts[req.body.itemid];
+                User.updateOne({ 'username': req.body.username, $set: {'balance': newBalance} }, (error) => {
+                    if (error) {
+                      console.log(error);
+                    } else {
+                      res.status(200);
+                    }
+                })
+              }
+              else {
+                res.status(401).send("Already bought.");
+              }
+          }
+        }) 
+      }
+    }) 
+  });
+
+  router.get('/items', function (req, res) {
+    console.log("GET ITEMS" + req.body);
+    //find user
+    User.find({ 'username': req.body.username }, (err, userPoints) => {
+      if (err)
+          throw console.log(err);
+      else 
+        //Return which items user has aleady bought
+        Items.find({ 'username': req.body.username }, (err, result) => {
+        if (err)
+          throw console.log(err);
+        else 
+          console.log(req.body.username);
+          res.status(200).json(result.map(entry => ({                             
+            itemid: entry.itemdid,
+            points: userPoints.balance
+        })));
+      }) 
+    }) 
+  });
 
 module.exports = router;
