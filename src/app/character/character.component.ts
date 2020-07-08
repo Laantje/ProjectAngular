@@ -214,6 +214,7 @@ export class CharacterComponent implements OnInit {
       },
       err => console.log(err)
     )
+    window.location.reload();
   }
 
   loadPreset(skin, hair, eyes) {
