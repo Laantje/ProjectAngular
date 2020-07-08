@@ -50,7 +50,7 @@ interface questmarker {
 export class QuestComponent implements OnInit {
   latitude: number;
   longitude: number;
-  zoom: number;
+  zoom: number = 11;
   address: string;
   selectedValue: number;
   content: string
@@ -169,14 +169,6 @@ export class QuestComponent implements OnInit {
     }
   }
 
-  wait(ms){
-    var start = new Date().getTime();
-    var end = start;
-    while(end < start + ms) {
-      end = new Date().getTime();
-   }
-  }
-
   selectChangeHandler(event: any) {
     //update the ui
     this.selectedValue = event.target.value
@@ -245,11 +237,11 @@ export class QuestComponent implements OnInit {
             this.newDescription = this.questmarker.description + "by user: " + this.questmarker.username + "</b>";
             //console.log(Number(this.questmarker.latitude));
             //console.log(Number(this.questmarker.longitude));
-            this.zoom = 11;
             this.latitude = Number(this.questmarker.latitude);
             this.longitude = Number(this.questmarker.longitude);
             this.addQuestMarker(Number(this.questmarker.latitude), Number(this.questmarker.longitude), 4000, this.questmarker.name, this.newDescription);
             this.questExists = true;
+            this.zoom = 11;
             return true;
         }
         else {
@@ -302,13 +294,15 @@ export class QuestComponent implements OnInit {
 
         this.latitude = position.coords.latitude + lat3;
         this.longitude = position.coords.longitude + long3;
-        this.zoom = 11;
+        
         // console.log(min)
         // console.log(max)
 
         this.questmarker.latitude = this.latitude.toString()
         this.questmarker.longitude = this.longitude.toString()
         this.questmarker.username = localStorage.getItem('username').toString()
+
+        this.zoom = 11;  
         
         //Send to db
         this.postMarker()

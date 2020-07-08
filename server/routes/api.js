@@ -192,7 +192,7 @@ router.put('/markers',function (req, res){
               throw console.log(err);
           else  {
               if(!items) {
-                console.log(req.body.itemid);
+                console.log(req.body.username);
                 let itemBody = '{ "username": "'+req.body.username+'", "itemid": "'+req.body.itemid+'" }';
                 let item = new Items(JSON.parse(itemBody));
                 item.save((error, newItem) => {
@@ -200,7 +200,7 @@ router.put('/markers',function (req, res){
                     console.log(error);
                   } else {
                     let newBalance = user[0].balance - itemCosts[req.body.itemid-1];
-                    User.updateOne({ 'username': req.body.username, $set: {'balance': newBalance} }, (error) => {
+                    User.updateOne({ 'username': req.body.username, $set: {'balance': newBalance} }, (error, result) => {
                     if (error) {
                       console.log(error);
                     } else {
