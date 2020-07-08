@@ -136,7 +136,7 @@ router.post('/markers',function (req, res){
 
 router.put('/markers',function (req, res){
   console.log('Deleting marker with username: ' + req.body.username);
-    Markers.deleteOne({ 'username': req.body.username }, (err) => {
+    Markers.deleteOne({ 'username': req.body.username }, (err, result) => {
       if (err)
           throw console.log(err);
       else 
@@ -144,9 +144,9 @@ router.put('/markers',function (req, res){
     })
   })
 
-  router.get('/preset', function (req, res) {
+  router.put('/preset', function (req, res) {
     console.log("GET PRESET");
-    Items.find({ 'username': req.body.username }, (err) => {
+    Items.find({ 'username': req.body.username }, (err, result) => {
       if (err)
           throw console.log(err);
       else 
@@ -161,7 +161,7 @@ router.put('/markers',function (req, res){
 
   router.post('/preset', function (req, res) {
     console.log("POST PRESET");
-    Preset.updateOne({ 'username': req.body.username, $set: {'skin': req.body.skin}, $set: {'hair': req.body.hair}, $set: {'eyes': req.body.eyes} }, (error) => {
+    Preset.updateOne({ 'username': req.body.username, $set: {'skin': req.body.skin}, $set: {'hair': req.body.hair}, $set: {'eyes': req.body.eyes} }, (error, result) => {
       if (error) {
         console.log(error);
       } else {
