@@ -60,7 +60,7 @@ export class QuestComponent implements OnInit {
   questExists:boolean = false;
   private geoCoder;
   // Radius
-  radius = 4000;
+  radius = 12000;
   radiusLat = 0;
   radiusLong = 0;
   index;
@@ -100,7 +100,7 @@ export class QuestComponent implements OnInit {
   removeQuestMarker() {
     let removeMarkerOfUser = {username: ''}
     removeMarkerOfUser.username = localStorage.getItem('username').toString();
-    this.MarkersService.putMarker(removeMarkerOfUser) //<br/><br/><b>
+    this.MarkersService.putMarker(removeMarkerOfUser)
     .subscribe(
         res => {(res)
         //this.http.put('username', removeMarkerOfUser)
@@ -295,13 +295,13 @@ export class QuestComponent implements OnInit {
         }
 
 
-        //var lat3: number = (Math.random() * (max - min) + min);
-        //var long3: number = (Math.random() * (max - min) + min);
+        var lat3: number = (Math.random() * (max - min) + min);
+        var long3: number = (Math.random() * (max - min) + min);
         var x: number = this.radius / 400000 * 3
         var z: number = this.radius / 400000 * 3
 
-        this.latitude = position.coords.latitude
-        this.longitude = position.coords.longitude
+        this.latitude = position.coords.latitude + lat3;
+        this.longitude = position.coords.longitude + long3;
         this.zoom = 11;
         // console.log(min)
         // console.log(max)

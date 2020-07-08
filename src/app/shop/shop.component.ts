@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {Preset} from '../preset';
 import { Router } from '@angular/router';
-import { ShopService } from '../services/shop.service';import { HttpClient } from '@angular/common/http';
+import { ShopService } from '../services/shop.service';
+import { HttpClient } from '@angular/common/http';
 import { user } from '@app/user';
 ;
 

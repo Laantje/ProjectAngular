@@ -22,10 +22,6 @@ img {
   height: 320px;
 }
 
-div {
-  background-color: lightblue;
-}
-
 .dialog {
   display: flex;
   flex-direction: row;
@@ -56,6 +52,10 @@ div {
     width:600px;
 }
 
+.character-body table {
+  margin:0 auto;
+}
+
 @media screen and (max-width:991px) {
     .character-header {
         border: solid;
@@ -74,6 +74,7 @@ div {
         border-radius: 3px;
         border-width: 2px;
         padding:25px;
+        padding-left:0px;
         top:50px;
         position: relative;
         margin: 0 auto!important;

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {Preset} from '../preset';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { PresetService } from '../services/preset.service';
+import { ShopService } from '@app/services/shop.service';
 //import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 @Component({
@@ -19,21 +22,57 @@ export class CharacterComponent implements OnInit {
   skinSrc = 'assets/sprites/skin/skin0.png';
   eyeSrc = 'assets/sprites/eye/eye0.png';
   // Amount of possibilities
-  hairAmount = 5;
+  availableHairs = [0];
   skinAmount = 5;
   eyeAmount = 5;
+
+  hairCount = 0;
 
   name = '';
   presetAmmount = 0;
 
+  getPresetUser = {username: ''}
+
+  ReceivedPreset;
+  ReceivedItems = [];
   presetArray = [];
+  presetData = {username: '', skin: '', hair: '', eyes: ''}
   chararcterData = {skin: '', hair: '', eyes: ''}
-  constructor(
-    //public dialogRef: MatDialogRef<CharacterComponent>,
+  constructor(public PresetService: PresetService,
+    public ShopService: ShopService,
+    private httpservice: HttpClient,
     private _router: Router){}
 
   ngOnInit() {
     this.presetArray = JSON.parse(localStorage.getItem('presets'));
+    
+    //Get Preset
+    this.getPresetUser.username = localStorage.getItem('username').toString()
+    this.PresetService.putPreset(this.getPresetUser).subscribe(data =>
+    {
+      this.ReceivedPreset = <any>data;
+
+      this.skinID = Number(this.ReceivedPreset[0].skin);
+      this.hairID = Number(this.ReceivedPreset[0].hair);
+      this.eyeID = Number(this.ReceivedPreset[0].eyes);
+      
+      this.updateSkin(this.skinID);
+      this.updateHair(this.hairID);
+      this.updateEye(this.eyeID);
+    });
+    this.ShopService.getItems(this.getPresetUser).subscribe(data =>
+    {
+      this.ReceivedItems = <any>data;
+      
+      if(this.ReceivedItems[0].itemid != "") {
+        console.log("Works!");
+        for(let i = 0; i<this.ReceivedItems.length; i++) {
+            this.availableHairs.push(Number(this.ReceivedItems[i].itemid));
+        }
+      }
+      
+      this.hairCount = $.inArray( this.hairID, this.availableHairs );
+    });
   }
 
   incrementSkin() {
@@ -53,19 +92,23 @@ export class CharacterComponent implements OnInit {
   }
 
   incrementHair() {
-    this.hairID ++;
-    if (this.hairID === this.hairAmount){
-      this.hairID = 0;
+    if (this.hairCount === this.availableHairs.length-1){
+      this.hairCount = 0;
     }
-    this.updateHair(this.hairID);
+    else {
+      this.hairCount ++;
+    }
+    this.updateHair(this.availableHairs[this.hairCount]);
   }
 
   decrementHair() {
-    if (this.hairID === 0){
-      this.hairID = this.hairAmount;
+    if (this.hairCount === 0){
+      this.hairCount = this.availableHairs.length-1;
     }
-    this.hairID --;
-    this.updateHair(this.hairID);
+    else {
+      this.hairCount--;
+    }
+    this.updateHair(this.availableHairs[this.hairCount]);
   }
 
   incrementEye() {
@@ -159,14 +202,18 @@ export class CharacterComponent implements OnInit {
     }
   }
 
-  savePreset(name) {
-    if (name === '') {
-      name = 'Preset ' + this.presetAmmount;
-    }
-    this.presetAmmount++;
-    const preset = new Preset(this.skinID, this.hairID, this.eyeID);
-    this.presetArray.push(preset);
-    localStorage.setItem('presetArray', JSON.stringify(this.presetArray));
+  savePreset() {
+    this.presetData.username = localStorage.getItem('username').toString();
+    this.presetData.skin = this.skinID.toString();
+    this.presetData.hair = this.availableHairs[this.hairCount].toString();
+    this.presetData.eyes = this.eyeID.toString();
+    console.log(this.presetData);
+    this.PresetService.postPreset(this.presetData).subscribe(
+      res => {(res)
+        
+      },
+      err => console.log(err)
+    )
   }
 
   loadPreset(skin, hair, eyes) {

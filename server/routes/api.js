@@ -146,7 +146,7 @@ router.put('/markers',function (req, res){
 
   router.put('/preset', function (req, res) {
     console.log("GET PRESET");
-    Items.find({ 'username': req.body.username }, (err, result) => {
+    Preset.find({ 'username': req.body.username }, (err, result) => {
       if (err)
           throw console.log(err);
       else 
@@ -161,7 +161,8 @@ router.put('/markers',function (req, res){
 
   router.post('/preset', function (req, res) {
     console.log("POST PRESET");
-    Preset.updateOne({ 'username': req.body.username, $set: {'skin': req.body.skin}, $set: {'hair': req.body.hair}, $set: {'eyes': req.body.eyes} }, (error, result) => {
+    console.log(req.body.skin);
+    Preset.updateOne({ 'username': req.body.username, $set: {'skin': req.body.skin, 'hair': req.body.hair, 'eyes': req.body.eyes} }, (error, result) => {
       if (error) {
         console.log(error);
       } else {
@@ -181,7 +182,7 @@ router.put('/markers',function (req, res){
           return;
         }
         //Check money
-        else if(user[0].balance < itemCosts[req.body.itemid]) {
+        else if(user[0].balance < itemCosts[req.body.itemid-1]) {
           res.status(401).send("Not enough money.");
           return;
         }
@@ -191,6 +192,7 @@ router.put('/markers',function (req, res){
               throw console.log(err);
           else  {
               if(!items) {
+                console.log(req.body.itemid);
                 let itemBody = '{ "username": "'+req.body.username+'", "itemid": "'+req.body.itemid+'" }';
                 let item = new Items(JSON.parse(itemBody));
                 item.save((error, newItem) => {
