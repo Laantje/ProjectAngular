@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {Preset} from '../preset';
 import { Router } from '@angular/router';
-import { ShopService } from '../services/shop.service';;
+import { ShopService } from '../services/shop.service';import { HttpClient } from '@angular/common/http';
+import { user } from '@app/user';
+;
 
 @Component({
   selector: 'app-shop',
@@ -17,9 +19,11 @@ export class ShopComponent implements OnInit {
   itemExists = [false, false, false, false];
   userPoints = 0;
 
-  getItemUser = {username: ''};
+  getItemUser = {username: ''}
+  buyItemBody = {username: '', itemid: ''}
 
   constructor(public ShopService: ShopService,
+    private httpservice: HttpClient,
     private _router: Router) { }
 
   ngOnInit() {
@@ -39,16 +43,41 @@ export class ShopComponent implements OnInit {
     this.verkoopArray = [ ...this.verkoopArray, ...temp];
 
     //Get items!
-    this.getItemUser.username = localStorage.getItem('username').toString();
-    console.log(this.getItemUser);
-    this.ShopService.getItems(this.getItemUser)
-        .subscribe(
-            res => {
-              this.ReceivedItems = <any>res;
-              console.log(this.ReceivedItems);
-            },
-            err => console.log(err)
-        )
+    /*this.httpservice.get('http://localhost:3000/api/items').subscribe(data =>
+    {
+      this.ReceivedItems = <any>data;
+
+      this.SetButtons();
+    });*/
+    this.getItemUser.username = localStorage.getItem('username').toString()
+    this.ShopService.getItems(this.getItemUser).subscribe(data =>
+    {
+      this.ReceivedItems = <any>data;
+      
+      console.log(this.ReceivedItems)
+      this.userPoints = Number(this.ReceivedItems[0].points);
+
+      this.SetButtons();
+    });
+  }
+
+  SetButtons() {
+    for(var b = 0; b < this.ReceivedItems.length; b++) {
+      switch((this.ReceivedItems[b].itemid-1)) {
+        case 0: 
+          this.itemExists[0] = true;
+          break;
+        case 1: 
+          this.itemExists[1] = true;
+          break;
+        case 2: 
+          this.itemExists[2] = true;
+          break;
+        case 3: 
+          this.itemExists[3] = true;
+          break;
+      }
+    }
   }
 
   buyPreset(preset) {
@@ -57,7 +86,17 @@ export class ShopComponent implements OnInit {
   }
 
   buyItem(itemid) {
-
+      if(this.userPoints >= this.itemCosts[itemid]){ 
+        this.buyItemBody.username = localStorage.getItem('username').toString()
+        this.buyItemBody.itemid = itemid+1;
+        this.ShopService.postItem(this.buyItemBody).subscribe(
+          res => {(res)
+            
+          },
+          err => console.log(err)
+        )
+        window.location.reload();
+      }
   }
 
   hairToSrc(id) {

@@ -17,6 +17,6 @@ export class ShopService {
         return this.http.post<any>(this._itemsUrl, userNItem)
     }
     getItems(username){
-        return this.http.get<any>(this._itemsUrl, username)
+        return this.http.put<any>(this._itemsUrl, username)
     }
 }
