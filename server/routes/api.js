@@ -161,8 +161,7 @@ router.put('/markers',function (req, res){
 
   router.post('/preset', function (req, res) {
     console.log("POST PRESET");
-    console.log(req.body.skin);
-    Preset.updateOne({ 'username': req.body.username, $set: {'skin': req.body.skin, 'hair': req.body.hair, 'eyes': req.body.eyes} }, (error, result) => {
+    Preset.updateOne({ 'username': req.body.username }, { $set: {'skin': req.body.skin, 'hair': req.body.hair, 'eyes': req.body.eyes} }, { upsert: false }, (error, result) => {
       if (error) {
         console.log(error);
       } else {
@@ -200,7 +199,7 @@ router.put('/markers',function (req, res){
                     console.log(error);
                   } else {
                     let newBalance = user[0].balance - itemCosts[req.body.itemid-1];
-                    User.updateOne({ 'username': req.body.username, $set: {'balance': newBalance} }, (error, result) => {
+                    User.updateOne({ 'username': req.body.username }, { $set: {'balance': newBalance} }, { upsert: false }, (error, result) => {
                     if (error) {
                       console.log(error);
                     } else {
