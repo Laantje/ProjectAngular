@@ -205,6 +205,7 @@ router.put('/markers',function (req, res){
                       console.log(error);
                     } else {
                       console.log("WORKS");
+                      res.status(200);
                     }
                   })
                   }

@@ -26,7 +26,7 @@
     "@angular/router": "~9.1.2",
     "@angular/service-worker": "~9.1.2",
     "@ng-bootstrap/ng-bootstrap": "^6.1.0",
-    "@types/jquery": "^3.3.38",
+    "@types/jquery": "^3.5.0",
     "body-parser": "^1.19.0",
     "bootstrap": "^4.4.0",
     "express": "^4.17.1",
